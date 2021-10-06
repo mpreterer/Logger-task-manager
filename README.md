@@ -18,6 +18,8 @@
 На выходе должен получится проект с несколькими страницами:
 
 Макеты можно найти по [ссылке в Figma](https://www.figma.com/file/GNaz1Ic87S72cWQibFiED0/Crello?node-id=0%3A1)
+Разрешается уходить от PixelPerfect, важна лишь корректная работа функционала.
+
 1) Главная страница с отображением Канбан Доски (Столбцы TODO, In progress, Test, Completed или совсем без столбцов )
 Эта страница является главной функциональной единицей.
 
@@ -121,5 +123,3 @@
 - [Дока по Mobx](https://mobx.js.org/README.html) 
 - [Статья про сравнение redux и mobx](https://blog.logrocket.com/redux-vs-mobx/) 
 - [Api Trello](https://developer.atlassian.com/cloud/trello/guides/rest-api/api-introduction/) 
-
-
