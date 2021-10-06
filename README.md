@@ -109,3 +109,7 @@
 
 **Про доп. требования**
 не забывайте при разработке проекта следовать стандартам https://github.com/fullstack-development/front-end-best-practices
+
+Полезные материалы:
+- [Дока по React](https://ru.reactjs.org/docs/getting-started.html) на русском языке
+- [Дока про React](https://ru.reactjs.org/docs/create-a-new-react-app.html) приложения на русском языке
