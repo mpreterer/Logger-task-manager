@@ -20,6 +20,7 @@
   },
   "homepage": "https://gitlab.com/squad_education/task_tracker_crello#readme",
   "dependencies": {
+    "@material-ui/core": "^4.12.3",
     "@mui/material": "^5.0.2",
     "@types/react": "^17.0.27",
     "next": "^11.1.2",
