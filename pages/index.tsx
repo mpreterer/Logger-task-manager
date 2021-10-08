@@ -1,13 +1,8 @@
-import Sample from '../components/sample';
-import Buttonui from '../components/sample-mui';
+import LoginButton from '../components/loginButton';
+import authorization from '../states/authorization';
 
 function HomePage() {
-  return (
-    <>
-      <Buttonui />
-      <Sample name="Hello, world!" />
-    </>
-  );
+  return <LoginButton authorization={authorization} />;
 }
 
 export default HomePage;
