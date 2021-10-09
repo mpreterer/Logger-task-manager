@@ -1,6 +1,7 @@
+import Link from 'next/link';
 import { observer } from 'mobx-react';
 import { Button } from '@mui/material';
-import Link from 'next/link';
+
 import authorization from '../states/authorization';
 
 const LoginButton = observer(() => (
