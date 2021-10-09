@@ -16,6 +16,9 @@ class Profile {
 
   init() {
     this.getData();
+    setInterval(() => {
+      this.getData();
+    }, 1000);
   }
 
   getData() {
