@@ -8,9 +8,7 @@ class Authorization {
   }
 
   login() {
-    console.log('before click: ', this.isLogin);
     this.isLogin = true;
-    console.log('after click: ', this.isLogin);
   }
 }
 
