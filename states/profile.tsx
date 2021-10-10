@@ -1,8 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 import axios from 'axios';
 
-const KEY = '66196052e0874cd6053399639259887c';
-const TOKEN = '26374b296bd629e6cb6da28858ba60a3d2b9c723761f99ae126b42f15d252a0c';
+import constants from '../enums/constants';
 
 class Profile {
   fullName = '';
@@ -11,6 +10,8 @@ class Profile {
 
   bio = '';
 
+  avatarUrl = '';
+
   constructor() {
     makeAutoObservable(this);
     this.init();
@@ -18,19 +19,21 @@ class Profile {
 
   init() {
     this.getData();
-    setInterval(() => {
-      this.getData();
-    }, 1000);
   }
 
   getData() {
     axios
-      .get(`https://api.trello.com/1/members/me?key=${KEY}&token=${TOKEN}`)
-      .then((response: { data: { fullName: string; idBoards: []; bio: string } }) => {
-        this.fullName = response.data.fullName;
-        this.countBoards = response.data.idBoards.length;
-        this.bio = response.data.bio;
-      });
+      .get(`${constants.URL_API_TRELLO}1/members/me?key=${constants.KEY}&token=${constants.TOKEN}`)
+      .then(
+        (response: {
+          data: { fullName: string; idBoards: []; bio: string; avatarUrl: string };
+        }) => {
+          this.fullName = response.data.fullName;
+          this.countBoards = response.data.idBoards.length;
+          this.bio = response.data.bio;
+          this.avatarUrl = `${response.data.avatarUrl}/170.png`;
+        },
+      );
   }
 }
 
