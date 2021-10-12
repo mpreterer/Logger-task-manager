@@ -5,13 +5,16 @@ import profile from '../states/profile';
 
 const ProfileCard = observer(() => (
   <>
-    <Typography variant="h4">{profile.fullName}</Typography>
-    <Typography variant="h5">
-      Boards:&#160;
-      {profile.countBoards}
+    <Typography sx={{ fontSize: '36px', lineHeight: '42px', color: '#FFF9F9;' }}>
+      {profile.fullName}
     </Typography>
-    <Card sx={{ height: 190 }}>
-      <CardContent>{profile.bio}</CardContent>
+    <Typography sx={{ fontSize: '32px', lineHeight: '37px', color: '#FFFFFF', marginTop: '35px' }}>
+      Boards: {profile.countBoards}
+    </Typography>
+    <Card sx={{ height: 190, marginTop: '35px' }}>
+      <CardContent sx={{ fontSize: '20px', lineHeight: '23px', color: '#707070' }}>
+        {profile.bio}
+      </CardContent>
     </Card>
   </>
 ));

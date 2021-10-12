@@ -5,11 +5,11 @@ import authorization from '../states/authorization';
 import ProfileCard from '../components/profileCard';
 import UserAvatar from '../components/avatar';
 
-function HomePage() {
+function Account() {
   if (authorization.isLogin) {
     return (
       <Container>
-        <Box sx={{ display: 'flex', gap: '20px' }}>
+        <Box sx={{ display: 'flex', gap: '19px', marginTop: '177px' }}>
           <UserAvatar />
           <Box width={380}>
             <ProfileCard />
@@ -19,7 +19,18 @@ function HomePage() {
     );
   }
 
-  return <LoginButton />;
+  return (
+    <Box
+      sx={{
+        height: 'calc(100vh - 49px)',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <LoginButton />
+    </Box>
+  );
 }
 
-export default HomePage;
+export default Account;

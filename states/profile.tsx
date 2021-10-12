@@ -1,7 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 import axios from 'axios';
 
-import constants from '../enums/constants';
+import { KEY, TOKEN } from '../constants/constants';
 
 class Profile {
   fullName = '';
@@ -23,7 +23,7 @@ class Profile {
 
   getData() {
     axios
-      .get(`${constants.URL_API_TRELLO}1/members/me?key=${constants.KEY}&token=${constants.TOKEN}`)
+      .get(`https://api.trello.com/1/members/me?key=${KEY}&token=${TOKEN}`)
       .then(
         (response: {
           data: { fullName: string; idBoards: []; bio: string; avatarUrl: string };
