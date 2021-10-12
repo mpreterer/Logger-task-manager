@@ -14,11 +14,6 @@ class Profile {
 
   constructor() {
     makeAutoObservable(this);
-    this.init();
-  }
-
-  init() {
-    this.getData();
   }
 
   getData() {

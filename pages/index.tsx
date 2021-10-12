@@ -5,8 +5,12 @@ import authorization from '../states/authorization';
 import ProfileCard from '../components/profileCard';
 import UserAvatar from '../components/avatar';
 
+import profile from '../states/profile';
+
 function Account() {
   if (authorization.isLogin) {
+    profile.getData();
+
     return (
       <Container>
         <Box sx={{ display: 'flex', gap: '19px', marginTop: '177px' }}>
