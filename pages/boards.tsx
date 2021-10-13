@@ -1,10 +1,17 @@
-import BoardCard from '../components/boardCard';
+import { Box, Container } from '@mui/material';
+import BoardsList from '../components/boardsList';
 import returnToHomeNotLoginUser from '../lib/returnToHomeNotLoginUser';
 
 function Boards() {
   returnToHomeNotLoginUser();
 
-  return <BoardCard />;
+  return (
+    <Container>
+      <Box sx={{ paddingTop: '210px' }}>
+        <BoardsList />
+      </Box>
+    </Container>
+  );
 }
 
 export default Boards;
