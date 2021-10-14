@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
-import authorization from '../states/authorization';
+import storage from '../storage/storage';
 
-const useUser = () => ({ isLogin: authorization.isLogin });
+const useUser = () => ({ isLogin: storage.authorization.isLogin });
 
 function returnToHomeNotLoginUser() {
   const { isLogin } = useUser();

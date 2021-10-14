@@ -1,15 +1,13 @@
 import { Box, Container } from '@mui/material';
 
 import LoginButton from '../components/loginButton';
-import authorization from '../states/authorization';
 import ProfileCard from '../components/profileCard';
 import UserAvatar from '../components/avatar';
-
-import profile from '../states/profile';
+import storage from '../storage/storage';
 
 function Account() {
-  if (authorization.isLogin) {
-    profile.getData();
+  if (storage.authorization.isLogin) {
+    storage.profile.getData();
 
     return (
       <Container>

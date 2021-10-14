@@ -12,4 +12,4 @@ class Authorization {
   }
 }
 
-export default new Authorization();
+export default Authorization;

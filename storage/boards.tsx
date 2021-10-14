@@ -32,4 +32,4 @@ class Boards {
   }
 }
 
-export default new Boards();
+export default Boards;
