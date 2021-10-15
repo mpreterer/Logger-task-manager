@@ -13,7 +13,8 @@ const UserAvatar = observer(({ size }: { size?: string }) => {
       avatarSize = { height: '140px', width: '140px' };
   }
 
-  const avatarUrl = storage.authorization.isLogin ? storage.profile.avatarUrl : '';
+  const avatarUrl =
+    typeof process.env.TRELLO_TOKEN !== 'undefined' ? storage.profile.avatarUrl : '';
 
   return <Avatar alt={storage.profile.fullName} src={avatarUrl} sx={avatarSize} />;
 });

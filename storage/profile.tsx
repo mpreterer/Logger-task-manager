@@ -1,8 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 import axios from 'axios';
 
-import { KEY, TOKEN } from '../constants/constants';
-
 class Profile {
   public fullName = '';
 
@@ -18,7 +16,9 @@ class Profile {
 
   public async getData() {
     const response: { data: { fullName: string; idBoards: []; bio: string; avatarUrl: string } } =
-      await axios.get(`https://api.trello.com/1/members/me?key=${KEY}&token=${TOKEN}`);
+      await axios.get(
+        `https://api.trello.com/1/members/me?key=${process.env.NEXT_PUBLIC_TRELLO_KEY}&token=${process.env.TRELLO_TOKEN}`,
+      );
 
     this.fullName = response.data.fullName;
     this.countBoards = response.data.idBoards.length;

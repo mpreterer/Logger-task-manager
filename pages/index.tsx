@@ -4,9 +4,17 @@ import LoginButton from '../components/loginButton';
 import ProfileCard from '../components/profileCard';
 import UserAvatar from '../components/avatar';
 import storage from '../storage/storage';
+import { useEffect } from 'react';
 
 function Account() {
-  if (storage.authorization.isLogin) {
+  useEffect(() => {
+    const hash: string = window.location.hash;
+    if (hash !== '') {
+      process.env.TRELLO_TOKEN = hash.slice(7);
+    }
+  });
+
+  if (typeof process.env.TRELLO_TOKEN !== 'undefined') {
     storage.profile.getData();
 
     return (
