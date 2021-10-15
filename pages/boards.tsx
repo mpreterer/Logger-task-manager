@@ -1,11 +1,13 @@
 import { Box, Container } from '@mui/material';
+import { useContext } from 'react';
 
 import BoardsList from '../components/boardsList';
 import returnToHomeNotLoginUser from '../lib/returnToHomeNotLoginUser';
-import storage from '../storage/storage';
+import StorageContext from '../context/storageContext';
 
 function Boards() {
   returnToHomeNotLoginUser();
+  const storage = useContext(StorageContext);
   storage.boards.getData();
 
   return (

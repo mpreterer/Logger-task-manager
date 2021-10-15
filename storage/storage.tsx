@@ -6,4 +6,4 @@ class Storage {
   boards = new Boards();
 }
 
-export default new Storage();
+export default Storage;

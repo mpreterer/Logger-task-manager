@@ -1,9 +1,12 @@
 import { observer } from 'mobx-react';
 import { Avatar } from '@mui/material';
+import { useContext } from 'react';
 
-import storage from '../storage/storage';
+import StorageContext from '../context/storageContext';
 
 const UserAvatar = observer(({ size }: { size?: string }) => {
+  const storage = useContext(StorageContext);
+
   let avatarSize: { height: string; width: string };
   switch (size) {
     case 'mini':

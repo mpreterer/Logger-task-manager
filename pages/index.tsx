@@ -3,10 +3,12 @@ import { Box, Container } from '@mui/material';
 import LoginButton from '../components/loginButton';
 import ProfileCard from '../components/profileCard';
 import UserAvatar from '../components/avatar';
-import storage from '../storage/storage';
-import { useEffect } from 'react';
+import StorageContext from '../context/storageContext';
+import { useEffect, useContext } from 'react';
 
 function Account() {
+  const storage = useContext(StorageContext);
+
   useEffect(() => {
     const hash: string = window.location.hash;
     if (hash !== '') {
