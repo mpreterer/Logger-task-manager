@@ -8,7 +8,7 @@ import StorageContext from '../context/storageContext';
 const BoardsList = observer(() => {
   const storage = useContext(StorageContext);
 
-  const boardCards = storage.boards.Boards.map((item) => (
+  const boardCards = storage.boards.boards.map((item) => (
     <BoardCard name={item.name} description={item.desc} key={item.id} />
   ));
 

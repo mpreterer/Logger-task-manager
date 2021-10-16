@@ -6,6 +6,9 @@ import StorageContext from '../context/storageContext';
 
 const UserAvatar = observer(({ size }: { size?: string }) => {
   const storage = useContext(StorageContext);
+  if (typeof process.env.TRELLO_TOKEN !== 'undefined') {
+    storage.profile.getData();
+  }
 
   let avatarSize: { height: string; width: string };
   switch (size) {
