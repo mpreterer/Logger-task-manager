@@ -16,10 +16,9 @@ const UserAvatar = observer(({ size }: { size?: string }) => {
       avatarSize = { height: '140px', width: '140px' };
   }
 
-  const avatarUrl =
-    typeof process.env.TRELLO_TOKEN !== 'undefined' ? storage.profile.avatarUrl : '';
+  const avatarUrl = storage.profile.user.avatarUrl;
 
-  return <Avatar alt={storage.profile.fullName} src={avatarUrl} sx={avatarSize} />;
+  return <Avatar alt={storage.profile.user.fullName} src={avatarUrl} sx={avatarSize} />;
 });
 
 export default UserAvatar;
