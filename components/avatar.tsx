@@ -1,14 +1,17 @@
 import { observer } from 'mobx-react';
 import { Avatar } from '@mui/material';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 
 import StorageContext from '../context/storageContext';
 
 const UserAvatar = observer(({ size }: { size?: string }) => {
   const storage = useContext(StorageContext);
-  if (typeof process.env.TRELLO_TOKEN !== 'undefined') {
-    storage.profile.getData();
-  }
+
+  useEffect(() => {
+    if (typeof process.env.TRELLO_TOKEN !== 'undefined') {
+      storage.profile.getData();
+    }
+  }, []);
 
   let avatarSize: { height: string; width: string };
   switch (size) {

@@ -3,10 +3,8 @@ import { useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
 import BoardsList from '../components/boardsList';
-import StorageContext from '../context/storageContext';
 
 function Boards() {
-  const storage = useContext(StorageContext);
   const router = useRouter();
 
   useEffect(() => {
@@ -16,8 +14,6 @@ function Boards() {
   });
 
   if (typeof process.env.TRELLO_TOKEN !== 'undefined') {
-    storage.boards.getData();
-
     return (
       <Container>
         <Box sx={{ paddingTop: '210px' }}>

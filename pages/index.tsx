@@ -5,10 +5,8 @@ import { useRouter } from 'next/router';
 import LoginButton from '../components/loginButton';
 import Profile from '../components/profile';
 import UserAvatar from '../components/avatar';
-import StorageContext from '../context/storageContext';
 
 function Account() {
-  const storage = useContext(StorageContext);
   const router = useRouter();
 
   useEffect(() => {
@@ -20,8 +18,6 @@ function Account() {
   });
 
   if (typeof process.env.TRELLO_TOKEN !== 'undefined') {
-    storage.profile.getData();
-
     return (
       <Container>
         <Box sx={{ display: 'flex', gap: '19px', marginTop: '177px' }}>

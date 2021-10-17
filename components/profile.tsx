@@ -1,11 +1,14 @@
 import { observer } from 'mobx-react';
 import { Typography, Card, CardContent } from '@mui/material';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 
 import StorageContext from '../context/storageContext';
 
 const Profile = observer(() => {
   const storage = useContext(StorageContext);
+  useEffect(() => {
+    storage.profile.getData();
+  }, []);
 
   return (
     <>
