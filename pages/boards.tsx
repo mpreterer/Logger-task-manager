@@ -1,20 +1,33 @@
 import { Box, Container } from '@mui/material';
+import { useContext, useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 import BoardsList from '../components/boardsList';
-import returnToHomeNotLoginUser from '../lib/returnToHomeNotLoginUser';
-import storage from '../storage/storage';
+import StorageContext from '../context/storageContext';
 
 function Boards() {
-  returnToHomeNotLoginUser();
-  storage.boards.getData();
+  const storage = useContext(StorageContext);
+  const router = useRouter();
 
-  return (
-    <Container>
-      <Box sx={{ paddingTop: '210px' }}>
-        <BoardsList />
-      </Box>
-    </Container>
-  );
+  useEffect(() => {
+    if (typeof process.env.TRELLO_TOKEN === 'undefined') {
+      router.push('/');
+    }
+  });
+
+  if (typeof process.env.TRELLO_TOKEN !== 'undefined') {
+    storage.boards.getData();
+
+    return (
+      <Container>
+        <Box sx={{ paddingTop: '210px' }}>
+          <BoardsList />
+        </Box>
+      </Container>
+    );
+  }
+
+  return <span>Redirecting...</span>;
 }
 
 export default Boards;

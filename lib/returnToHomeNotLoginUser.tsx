@@ -1,9 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
-import storage from '../storage/storage';
-
-const useUser = () => ({ isLogin: storage.authorization.isLogin });
+const useUser = () => ({ isLogin: typeof process.env.TRELLO_TOKEN !== 'undefined' });
 
 function returnToHomeNotLoginUser() {
   const { isLogin } = useUser();
