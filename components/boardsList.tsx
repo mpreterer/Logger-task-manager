@@ -1,18 +1,15 @@
 import { Box } from '@mui/system';
 import { observer } from 'mobx-react';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 
 import BoardCard from './boardCard';
 import StorageContext from '../context/storageContext';
+import useStore from '../hooks/useStore';
 
 const BoardsList = observer(() => {
-  const storage = useContext(StorageContext);
+ const { boards } = useStore();
 
-  useEffect(() => {
-    storage.boards.getData();
-  }, []);
-
-  const boardCards = storage.boards.boards.map((item) => (
+  const boardCards = boards.boards?.map((item) => (
     <BoardCard name={item.name} description={item.desc} key={item.id} />
   ));
 

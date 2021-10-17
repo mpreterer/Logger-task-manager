@@ -1,23 +1,13 @@
+import { observer } from 'mobx-react-lite';
 import { Box, Container } from '@mui/material';
-import { useEffect, useContext } from 'react';
-import { useRouter } from 'next/router';
 
+import AuthService from '../services/trello/AuthService';
 import LoginButton from '../components/loginButton';
 import Profile from '../components/profile';
 import UserAvatar from '../components/avatar';
 
 function Account() {
-  const router = useRouter();
-
-  useEffect(() => {
-    const hash: string = window.location.hash;
-    if (hash !== '') {
-      process.env.TRELLO_TOKEN = hash.slice(7);
-      router.push('/');
-    }
-  });
-
-  if (typeof process.env.TRELLO_TOKEN !== 'undefined') {
+  if (AuthService.isLogin()) {
     return (
       <Container>
         <Box sx={{ display: 'flex', gap: '19px', marginTop: '177px' }}>
@@ -44,4 +34,4 @@ function Account() {
   );
 }
 
-export default Account;
+export default observer(Account);
