@@ -8,7 +8,7 @@ const Auth = () => {
 
   // Browser side
   useEffect(() => {
-    const tokenHashName = `${process.env.NEXT_PUBLIC_TOKEN_HASH_NAME}`;
+    const tokenHashName = 'token';
     const urlHash = router.asPath.replace(router.pathname, '');
     const token = urlHash.replace(tokenHashName, '').replace(/[\s#=]/g, '');
     const isToken = token !== '';

@@ -30,12 +30,12 @@ class AuthService {
     const isBrowserSide = typeof window !== 'undefined';
 
     if (isBrowserSide) {
-      localStorage.setItem(`${process.env.NEXT_PUBLIC_TOKEN_STORAGE_NAME}`, token);
+      localStorage.setItem('trello-auth-token', token);
     }
   }
 
   private isToken (): boolean {
-    const token = localStorage.getItem(`${process.env.NEXT_PUBLIC_TOKEN_STORAGE_NAME}`);
+    const token = localStorage.getItem('trello-auth-token');
     const isToken = Boolean(token);
 
     return isToken;
