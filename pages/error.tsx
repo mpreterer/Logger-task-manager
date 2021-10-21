@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from '@mui/material';
 import Link from 'next/link';
 
-function showError() {
+function Error() {
   return (
     <Box
       sx={{
@@ -39,4 +39,4 @@ function showError() {
   );
 }
 
-export default showError;
+export default Error;
