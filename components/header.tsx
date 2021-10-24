@@ -4,7 +4,7 @@ import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 
 import UserAvatar from './avatar';
 
-const Header = () => {
+const Header = ({ avatarUrl, name }: { avatarUrl: string; name: string; }) => {
   return (
     <AppBar position="static" sx={{ height: '49px' }}>
       <Toolbar variant="dense" sx={{ gap: '4px' }}>
@@ -20,7 +20,7 @@ const Header = () => {
           <Button variant="contained">Creating board</Button>
         </Link>
         <Box sx={{ marginLeft: 'auto' }}>
-          <UserAvatar size="mini" />
+          <UserAvatar size="mini" avatarUrl={avatarUrl} name={name} />
         </Box>
       </Toolbar>
     </AppBar>

@@ -1,21 +1,23 @@
 import '../styles/global.css';
 import Header from '../components/header';
-import StorageContext from '../context/storageContext';
 
-import Storage from '../storage/storage';
 import RootStore from '../store/RootStore';
 import { createContext } from 'react';
+import useStore from '../hooks/useStore';
+import { observer } from 'mobx-react-lite';
 
 const store = RootStore.create({});
 export const StoreContext = createContext(store);
 
 function App({ Component }) {
+  const { user } = useStore();
+
   return (
     <StoreContext.Provider value={store}>
-      <Header />
+      <Header name={user.user?.fullName} avatarUrl={user.user?.avatarUrl}/>
       <Component />
     </StoreContext.Provider>
   );
 }
 
-export default App;
+export default observer(App);
