@@ -1,23 +1,14 @@
 import { Box, Container } from '@mui/material';
-import { useEffect, useContext } from 'react';
-import { useRouter } from 'next/router';
 
 import LoginButton from '../components/loginButton';
 import Profile from '../components/profile';
 import UserAvatar from '../components/avatar';
+import { useAuth } from '../services/AuthProvider';
 
 function Account() {
-  const router = useRouter();
+  const isLoginIn = useAuth();
 
-  useEffect(() => {
-    const hash: string = window.location.hash;
-    if (hash !== '') {
-      process.env.TRELLO_TOKEN = hash.slice(7);
-      router.push('/');
-    }
-  });
-
-  if (typeof process.env.TRELLO_TOKEN !== 'undefined') {
+  if (isLoginIn) {
     return (
       <Container>
         <Box sx={{ display: 'flex', gap: '19px', marginTop: '177px' }}>
