@@ -3,9 +3,19 @@ import axios from 'axios';
 
 class Boards {
   public boards = [];
+  private token: string | null;
 
   constructor() {
     makeAutoObservable(this);
+    this.token = this.getToken();
+  }
+
+  private getToken(): string | null {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('token')
+    }
+
+    return null;
   }
 
   public async getData() {
@@ -30,7 +40,7 @@ class Boards {
 
   private async getBoardsId() {
     const response: { data: { idBoards: [] } } = await axios.get(
-      `https://api.trello.com/1/members/me?key=${process.env.NEXT_PUBLIC_TRELLO_KEY}&token=${process.env.TRELLO_TOKEN}`,
+      `https://api.trello.com/1/members/me?key=${process.env.NEXT_PUBLIC_TRELLO_KEY}&token=${this.token}`,
     );
 
     return response.data.idBoards;
@@ -38,7 +48,7 @@ class Boards {
 
   private async getBoard(idBoard: string) {
     const response: { data: { idBoards: []; name: string; desc: string } } = await axios.get(
-      `https://api.trello.com/1/boards/${idBoard}?key=${process.env.NEXT_PUBLIC_TRELLO_KEY}&token=${process.env.TRELLO_TOKEN}`,
+      `https://api.trello.com/1/boards/${idBoard}?key=${process.env.NEXT_PUBLIC_TRELLO_KEY}&token=${this.token}`,
     );
 
     return { name: response.data.name, id: idBoard, desc: response.data.desc };
