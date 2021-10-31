@@ -1,13 +1,18 @@
 import { Box } from '@mui/system';
 import { observer } from 'mobx-react';
+import { useEffect } from 'react';
 
-import BoardCard from './boardCard';
 import useStore from '../hooks/useStore';
+import IBoard from '../utils/interfaces/IBoard';
+import BoardCard from './boardCard';
 
 const BoardsList = observer(() => {
- const { boards } = useStore();
+  const { boards } = useStore();
+  useEffect(() => {
+    boards.loadBoards();
+  }, [])
 
-  const boardCards = boards.boards?.map((item) => (
+  const boardCards = boards.boards.map((item: IBoard) => (
     <BoardCard name={item.name} desc={item.desc} id={item.id} members={item.members} key={item.id} />
   ));
 
