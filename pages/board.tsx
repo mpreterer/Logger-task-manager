@@ -1,39 +1,54 @@
-import { observer } from "mobx-react";
-import router from "next/router";
-import { useEffect, useState } from "react";
-import useStore from "../hooks/useStore";
+import { Box } from '@mui/material';
+import { observer } from 'mobx-react';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
-function Board() {
+import ColumnCard from '../components/columnCard';
+import useStore from '../hooks/useStore';
+import { useAuth } from '../services/AuthProvider';
 
+const Board = observer(() => {
+  const isLoginIn = useAuth();
+  const router = useRouter();
   const { boards } = useStore();
-  const [id, setID] = useState("");
 
-  // Получаем boardID из url
   useEffect(() => {
-    const id = router.query.id;
-    const isID = id !== undefined;
-    if (isID) setID(id)
-  })
+    const { id } = router.query;
 
-  return <div style={{color: 'lightsteelblue'}}>
-    {boards.boards?.filter(board => board.id === id)
-      .map(board => {
-        return <div key={board.id}>
-          Название: {board.name}<br/><br/>
-          Описание: {board.desc}<br/><br/>
-          Мемберы: {board.members?.map(member => {
-            return <div key={member.id}> {member.fullName}<br/><img src={member.avatarUrl+"/170.png"}></img></div>
-          })}<br/><br/>
-          Дашбоард: {board.lists?.map(list => {
-            return <div key={list.id}>
-              ======== КОЛОНКА ({list.name}) ========<br/>
-              {list.cards?.map(card => {
-                return <div key={card.id}>--- карточка - {card.name}</div>
-              })}
-            </div>
-          })}
-      </div>
-  })}</div>;
+    if(!router.isReady) return;
+    
+    if(id) {
+      boards.getActiveBoard(`${id}`);
+    }
+  }, [router.isReady])
+
+  if(isLoginIn) {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          gap: '41px',
+          alignItems: 'flex-start',
+          padding: '42px 66px',
+          overflowX: 'auto',
+          height: 'calc(100vh - 56px)',
+          '&::-webkit-scrollbar': {
+            width: '15px',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            backgroundColor: '#A6AAAC',
+            borderRadius: '40px',
+          },
+        }}
+      >
+        {boards.activeBoard?.lists?.map(list => {
+          return <ColumnCard previewCards={list.cards} title={list.name} key={list.id} />;
+        })}
+    </Box>
+  );
 }
 
-export default observer(Board);
+  return <>Loading...</>;
+});
+
+export default Board;

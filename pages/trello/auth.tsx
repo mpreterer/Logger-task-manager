@@ -1,26 +1,17 @@
-import { useRouter } from "next/router";
-import { useEffect } from "react";
-
-import AuthService from "../../services/trello/AuthService";
+import React, { useEffect } from 'react';
 
 const Auth = () => {
-  const router = useRouter();
 
-  // Browser side
   useEffect(() => {
-    const tokenHashName = 'token';
-    const urlHash = router.asPath.replace(router.pathname, '');
-    const token = urlHash.replace(tokenHashName, '').replace(/[\s#=]/g, '');
-    const isToken = token !== '';
-
-    if(isToken) {
-      AuthService.saveToken(token); // save the token to localStorage
-    }
+    const hash: string = window.location.hash;
     
-    window.location.href = '/'; // redirect to the home page
-  })
+    if (hash !== '') {
+      localStorage.setItem('token', hash.slice(7));
+      window.location.href = '/';
+    }
+  });
 
-  return (<>Загрузка...</>);
-}
+  return <>Redirect...</>;
+};
 
 export default Auth;

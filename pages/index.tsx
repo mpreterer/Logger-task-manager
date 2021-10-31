@@ -1,29 +1,34 @@
-import { observer } from 'mobx-react-lite';
+import { observer } from 'mobx-react';
+import { useEffect, useContext } from 'react';
 import { Box, Container } from '@mui/material';
 
-import AuthService from '../services/trello/AuthService';
+import { useAuth } from '../services/AuthProvider';
 import LoginButton from '../components/loginButton';
 import Profile from '../components/profile';
 import UserAvatar from '../components/avatar';
 import useStore from '../hooks/useStore';
 
-function Account() {
+const Account = observer(() => {
+  const isLoginIn = useAuth();
   const { user } = useStore();
 
-  if (AuthService.isLogin()) {
+  useEffect(() => {
+    if (isLoginIn) {
+      user.getUser();
+    }
+  }, [])
+
+  if (isLoginIn) {
     return (
       <Container>
         <Box sx={{ display: 'flex', gap: '19px', marginTop: '177px' }}>
-          <UserAvatar
-            fullName={user.user?.fullName}
-            avatarUrl={user.user?.avatarUrl}
-          />
+          {
+            isLoginIn && user.activeUser
+            ? <UserAvatar alt={user.activeUser.fullName} src={user.activeUser.avatarUrl + '/170.png'} /> 
+            : <UserAvatar />
+          }
           <Box width={380}>
-            <Profile
-              fullName={user.user?.fullName}
-              bio={user.user?.bio}
-              idBoards={user.user?.idBoards.length}
-            />
+            <Profile />
           </Box>
         </Box>
       </Container>
@@ -42,6 +47,6 @@ function Account() {
       <LoginButton />
     </Box>
   );
-}
+});
 
-export default observer(Account);
+export default Account;

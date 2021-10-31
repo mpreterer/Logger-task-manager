@@ -1,12 +1,8 @@
-import { observer } from 'mobx-react-lite';
-import { Box, Button, Container } from '@mui/material';
+import { Box, Container } from '@mui/material';
+
 import BoardsList from '../components/boardsList';
-import useStore from '../hooks/useStore';
 
 function Boards() {
-
-  const { boards } = useStore();
-
   return (
     <Container>
       <Box sx={{ paddingTop: '210px' }}>
@@ -16,4 +12,4 @@ function Boards() {
   );
 }
 
-export default observer(Boards);
+export default Boards;
