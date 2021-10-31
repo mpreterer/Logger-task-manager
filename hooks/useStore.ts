@@ -1,7 +1,8 @@
-import { useContext } from "react";
-import { StoreContext } from "../pages/_app";
+import { useContext } from 'react';
 
-function useStore() {
+import { StoreContext } from '../store/RootStore';
+
+const useStore = () => {
   return useContext(StoreContext);
 }
 
