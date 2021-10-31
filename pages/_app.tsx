@@ -3,13 +3,16 @@ import Header from '../components/header';
 import StorageContext from '../context/storageContext';
 
 import Storage from '../storage/storage';
+import { AuthProvider } from '../services/AuthProvider';
 
 function App({ Component }) {
   return (
-    <StorageContext.Provider value={new Storage()}>
-      <Header />
-      <Component />
-    </StorageContext.Provider>
+    <AuthProvider>
+      <StorageContext.Provider value={new Storage()}>
+        <Header />
+        <Component />
+      </StorageContext.Provider>
+    </AuthProvider>
   );
 }
 
