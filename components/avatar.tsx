@@ -2,13 +2,12 @@ import { observer } from 'mobx-react';
 import { Avatar } from '@mui/material';
 
 type props = {
-  alt?: string,
-  src?: string,
-  size?: string
-}
+  alt?: string;
+  src?: string;
+  size?: string;
+};
 
 const UserAvatar = observer(({ size, alt, src }: props) => {
-
   let avatarSize: { height: string; width: string };
 
   switch (size) {

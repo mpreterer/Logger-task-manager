@@ -1,3 +1,4 @@
+import ILabel from "./ILabel";
 import IUser from "./IUser";
 
 interface ICard {
@@ -5,7 +6,8 @@ interface ICard {
   name: string,
   dateCreated: string,
   dateLastActivity: string,
-  members?: IUser[]
+  members?: IUser[],
+  labels: ILabel[]
 }
 
 export default ICard;

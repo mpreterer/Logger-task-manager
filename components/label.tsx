@@ -27,7 +27,7 @@ const Label = ({ label }: props) => {
       case 'green':
         return 'low';
       default:
-        return null;
+        return 'low';
     }
   };
 

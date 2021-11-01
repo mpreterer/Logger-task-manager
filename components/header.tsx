@@ -83,11 +83,15 @@ const Header = observer(() => {
           </Typography>
         </Box>
         <Box sx={{ marginLeft: 'auto' }}>
-          {
-            isLoginIn && user.activeUser
-            ? <UserAvatar size="mini" alt={user.activeUser.fullName} src={user.activeUser.avatarUrl + '/50.png'} /> 
-            : <UserAvatar size="mini" />
-          }
+          {isLoginIn && user.activeUser ? (
+            <UserAvatar
+              size="mini"
+              alt={user.activeUser.fullName}
+              src={user.activeUser.avatarUrl + '/50.png'}
+            />
+          ) : (
+            <UserAvatar size="mini" />
+          )}
         </Box>
       </Toolbar>
     </AppBar>

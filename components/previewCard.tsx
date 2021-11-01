@@ -16,19 +16,21 @@ const PreviewCard = ({ id, text, date, label, members }: props) => {
   let avatars = null;
 
   const performDate = (value: string) => {
-    const date = new Date (value);
+    const date = new Date(value);
     const month = date.toLocaleString('EN-en', { month: 'short' });
     const day = date.getDate();
     const year = date.getFullYear();
 
     return `${month} ${day}, ${year}`;
-  }
+  };
 
   if (typeof members !== 'undefined') {
     avatars = (
       <Box sx={{ display: 'flex', gap: '8px', margin: '8px', justifyContent: 'flex-end' }}>
         {members.map((member) => {
-          return <Avatar alt={member.fullName} src={member.avatarUrl + '/50.png'} key={member.id} />;
+          return (
+            <Avatar alt={member.fullName} src={member.avatarUrl + '/50.png'} key={member.id} />
+          );
         })}
       </Box>
     );
@@ -48,7 +50,7 @@ const PreviewCard = ({ id, text, date, label, members }: props) => {
             marginBottom: '8px',
           }}
         >
-          <a href={`card?id=${id}`} >{text}</a>
+          <a href={`card?id=${id}`}>{text}</a>
         </Typography>
         <Typography sx={{ fontSize: '11px', lineHeight: '16px', color: '#666666' }}>
           {performDate(date)}
