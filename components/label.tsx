@@ -1,7 +1,7 @@
 import { Chip } from '@mui/material';
 
 type props = {
-  difficulty: string;
+  label: string;
 };
 
 type color = {
@@ -11,20 +11,38 @@ type color = {
   high: string;
 };
 
-const Label = ({ difficulty }: props) => {
+const Label = ({ label }: props) => {
   const color: color = {
     low: '#BBEBB0',
     medium: '#F0CA81',
     high: '#DE1D3E',
   };
 
-  const textColor = difficulty === 'high' ? 'white' : 'black';
+  const getDifficulty = (color: string) => {
+    switch (color) {
+      case 'red':
+        return 'high';
+      case 'yellow':
+        return 'medium';
+      case 'green':
+        return 'low';
+      default:
+        return 'low';
+    }
+  };
+
+  const confirmedDifficulty = getDifficulty(label);
+  const textColor = confirmedDifficulty === 'high' ? 'white' : 'black';
+
+  if(!confirmedDifficulty) {
+    return null;
+  }
 
   return (
     <Chip
-      label={difficulty}
+      label={confirmedDifficulty}
       sx={{
-        backgroundColor: `${color[difficulty]}`,
+        backgroundColor: `${color[confirmedDifficulty]}`,
         color: `${textColor}`,
         textTransform: 'capitalize',
       }}

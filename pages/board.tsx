@@ -1,199 +1,54 @@
 import { Box } from '@mui/material';
+import { observer } from 'mobx-react';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 import ColumnCard from '../components/columnCard';
+import useStore from '../hooks/useStore';
+import { useAuth } from '../services/AuthProvider';
 
-function Board() {
-  const data = [
-    {
-      title: 'test',
-      previewCards: [
-        {
-          text: 'Define more tags in components',
-          date: 'Mar 3, 2020',
-          difficulty: 'high',
-          members: [
-            { alt: 'alt', url: '' },
-            { alt: 'alt', url: '' },
-            { alt: 'alt', url: '' },
-          ],
-        },
-        {
-          text: 'Define more tags in components',
-          date: 'Mar 3, 2020',
-          difficulty: 'high',
-          members: [
-            { alt: 'alt', url: '' },
-            { alt: 'alt', url: '' },
-            { alt: 'alt', url: '' },
-          ],
-        },
-        {
-          text: 'Define more tags in components',
-          date: 'Mar 3, 2020',
-          difficulty: 'high',
-          members: [
-            { alt: 'alt', url: '' },
-            { alt: 'alt', url: '' },
-            { alt: 'alt', url: '' },
-          ],
-        },
-      ],
-    },
-    {
-      previewCards: [
-        {
-          text: 'Define more tags in components',
-          date: 'Mar 3, 2020',
-          difficulty: 'high',
-          members: [
-            { alt: 'alt', url: '' },
-            { alt: 'alt', url: '' },
-            { alt: 'alt', url: '' },
-          ],
-        },
-        {
-          text: 'Define more tags in components',
-          date: 'Mar 3, 2020',
-          difficulty: 'high',
-          members: [
-            { alt: 'alt', url: '' },
-            { alt: 'alt', url: '' },
-            { alt: 'alt', url: '' },
-          ],
-        },
-        {
-          text: 'Define more tags in components',
-          date: 'Mar 3, 2020',
-          difficulty: 'high',
-          members: [
-            { alt: 'alt', url: '' },
-            { alt: 'alt', url: '' },
-            { alt: 'alt', url: '' },
-          ],
-        },
-      ],
-    },
-    {
-      previewCards: [
-        {
-          text: 'Define more tags in components',
-          date: 'Mar 3, 2020',
-          difficulty: 'low',
-        },
-        {
-          text: 'Define more tags in components',
-          date: 'Mar 3, 2020',
-          difficulty: 'medium',
-          members: [
-            { alt: 'alt', url: '' },
-            { alt: 'alt', url: '' },
-          ],
-        },
-        {
-          text: 'Define more tags in components',
-          date: 'Mar 3, 2020',
-          difficulty: 'high',
-          members: [
-            { alt: 'alt', url: '' },
-            { alt: 'alt', url: '' },
-            { alt: 'alt', url: '' },
-          ],
-        },
-      ],
-    },
-    {
-      previewCards: [
-        {
-          text: 'Define more tags in components',
-          date: 'Mar 3, 2020',
-          difficulty: 'high',
-          members: [
-            { alt: 'alt', url: '' },
-            { alt: 'alt', url: '' },
-            { alt: 'alt', url: '' },
-          ],
-        },
-        {
-          text: 'Define more tags in components',
-          date: 'Mar 3, 2020',
-          difficulty: 'high',
-          members: [
-            { alt: 'alt', url: '' },
-            { alt: 'alt', url: '' },
-            { alt: 'alt', url: '' },
-          ],
-        },
-        {
-          text: 'Define more tags in components',
-          date: 'Mar 3, 2020',
-          difficulty: 'high',
-          members: [
-            { alt: 'alt', url: '' },
-            { alt: 'alt', url: '' },
-            { alt: 'alt', url: '' },
-          ],
-        },
-      ],
-    },
-    {
-      previewCards: [
-        {
-          text: 'Define more tags in components',
-          date: 'Mar 3, 2020',
-          difficulty: 'high',
-          members: [
-            { alt: 'alt', url: '' },
-            { alt: 'alt', url: '' },
-            { alt: 'alt', url: '' },
-          ],
-        },
-        {
-          text: 'Define more tags in components',
-          date: 'Mar 3, 2020',
-          difficulty: 'high',
-          members: [
-            { alt: 'alt', url: '' },
-            { alt: 'alt', url: '' },
-            { alt: 'alt', url: '' },
-          ],
-        },
-        {
-          text: 'Define more tags in components',
-          date: 'Mar 3, 2020',
-          difficulty: 'high',
-          members: [
-            { alt: 'alt', url: '' },
-            { alt: 'alt', url: '' },
-            { alt: 'alt', url: '' },
-          ],
-        },
-      ],
-    },
-  ];
+const Board = observer(() => {
+  const isLoginIn = useAuth();
+  const router = useRouter();
+  const { boards } = useStore();
 
-  return (
-    <Box
-      sx={{
-        display: 'flex',
-        gap: '41px',
-        alignItems: 'flex-start',
-        padding: '42px 66px',
-        overflowX: 'auto',
-        height: 'calc(100vh - 56px)',
-        '&::-webkit-scrollbar': {
-          width: '15px',
-        },
-        '&::-webkit-scrollbar-thumb': {
-          backgroundColor: '#A6AAAC',
-          borderRadius: '40px',
-        },
-      }}
-    >
-      {data.map((item) => {
-        return <ColumnCard previewCards={item.previewCards} title={item.title} />;
-      })}
+  useEffect(() => {
+    const { id } = router.query;
+
+    if(!router.isReady) return;
+    
+    if(id) {
+      boards.getActiveBoard(`${id}`);
+    }
+  }, [router.isReady])
+
+  if(isLoginIn) {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          gap: '41px',
+          alignItems: 'flex-start',
+          padding: '42px 66px',
+          overflowX: 'auto',
+          height: 'calc(100vh - 56px)',
+          '&::-webkit-scrollbar': {
+            width: '15px',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            backgroundColor: '#A6AAAC',
+            borderRadius: '40px',
+          },
+        }}
+      >
+        {boards.activeBoard?.lists?.map(list => {
+          return <ColumnCard cards={list.cards} name={list.name} key={list.id} />;
+        })}
     </Box>
   );
 }
+
+  return <>Loading...</>;
+});
 
 export default Board;

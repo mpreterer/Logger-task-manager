@@ -1,27 +1,11 @@
 import { Avatar, Card, CardContent, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import Link from 'next/link';
+import IBoard from '../utils/interfaces/IBoard';
 
-type avatars = { alt: string; src: string };
-
-const BoardCard = ({
-  name,
-  description,
-  id,
-  avatars = [
-    {
-      src: '',
-      alt: '',
-    },
-  ],
-}: {
-  name: string;
-  description: string;
-  id: string;
-  avatars: avatars[];
-}) => {
+const BoardCard = ({ name, desc, id, members }: IBoard) => {
   return (
-    <Link href={`/board/${id}`}>
+    <Link href={`/board?id=${id}`}>
       <a style={{ textDecoration: 'none' }}>
         <Card
           variant="outlined"
@@ -67,7 +51,7 @@ const BoardCard = ({
                   overflow: 'hidden',
                 }}
               >
-                {description}
+                {desc}
               </Typography>
             </Box>
             <Box
@@ -79,8 +63,14 @@ const BoardCard = ({
               }}
             >
               <Typography sx={{ fontSize: '18px', lineHeight: '21px' }}>Members:</Typography>
-              {avatars.map((avatar) => {
-                return <Avatar alt={avatar.alt} src={avatar.src} />;
+              {members?.map((member) => {
+                return (
+                  <Avatar
+                    alt={member.fullName}
+                    src={member.avatarUrl + '/50.png'}
+                    key={member.id}
+                  />
+                );
               })}
             </Box>
           </CardContent>

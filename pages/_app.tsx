@@ -1,17 +1,16 @@
 import '../styles/global.css';
 import Header from '../components/header';
-import StorageContext from '../context/storageContext';
-
-import Storage from '../storage/storage';
 import { AuthProvider } from '../services/AuthProvider';
+import RootStore, { StoreContext } from '../store/RootStore';
 
 function App({ Component }) {
+
   return (
     <AuthProvider>
-      <StorageContext.Provider value={new Storage()}>
+      <StoreContext.Provider value={RootStore}>
         <Header />
         <Component />
-      </StorageContext.Provider>
+      </StoreContext.Provider>
     </AuthProvider>
   );
 }

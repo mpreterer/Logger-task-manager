@@ -3,13 +3,18 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
+import { useAuth } from '../services/AuthProvider';
 import UserAvatar from './avatar';
 import HomeIcon from '../public/images/home.svg';
 import BoardsIcon from '../public/images/boards.svg';
 import LogoIcon from '../public/images/logo.svg';
+import { observer } from 'mobx-react';
+import useStore from '../hooks/useStore';
 
-const Header = () => {
+const Header = observer(() => {
   const router = useRouter();
+  const isLoginIn = useAuth();
+  const { user } = useStore();
 
   return (
     <AppBar position="static" sx={{ height: '49px', backgroundColor: '#026AA7' }}>
@@ -78,11 +83,19 @@ const Header = () => {
           </Typography>
         </Box>
         <Box sx={{ marginLeft: 'auto' }}>
-          <UserAvatar size="mini" />
+          {isLoginIn && user.activeUser ? (
+            <UserAvatar
+              size="mini"
+              alt={user.activeUser.fullName}
+              src={user.activeUser.avatarUrl + '/50.png'}
+            />
+          ) : (
+            <UserAvatar size="mini" />
+          )}
         </Box>
       </Toolbar>
     </AppBar>
   );
-};
+});
 
 export default Header;

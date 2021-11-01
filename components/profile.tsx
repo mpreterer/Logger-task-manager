@@ -1,28 +1,29 @@
 import { observer } from 'mobx-react';
 import { Typography, Card, CardContent } from '@mui/material';
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 
-import StorageContext from '../context/storageContext';
+import useStore from '../hooks/useStore';
 
 const Profile = observer(() => {
-  const storage = useContext(StorageContext);
+  const { user } = useStore();
+  
   useEffect(() => {
-    storage.profile.getData();
+    user.getUser();
   }, []);
 
   return (
     <>
       <Typography sx={{ fontSize: '36px', lineHeight: '42px', color: '#FFF9F9;' }}>
-        {storage.profile.user.fullName}
+        {user.activeUser?.fullName}
       </Typography>
       <Typography
         sx={{ fontSize: '32px', lineHeight: '37px', color: '#FFFFFF', marginTop: '35px' }}
       >
-        Boards: {storage.profile.user.countBoards}
+        Boards: {user.activeUser?.idBoards.length}
       </Typography>
       <Card sx={{ height: 190, marginTop: '35px' }}>
         <CardContent sx={{ fontSize: '20px', lineHeight: '23px', color: '#707070' }}>
-          {storage.profile.user.bio}
+          {user.activeUser?.bio}
         </CardContent>
       </Card>
     </>

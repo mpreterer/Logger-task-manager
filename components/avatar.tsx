@@ -1,30 +1,25 @@
 import { observer } from 'mobx-react';
 import { Avatar } from '@mui/material';
-import { useContext, useEffect } from 'react';
 
-import StorageContext from '../context/storageContext';
+type props = {
+  alt?: string;
+  src?: string;
+  size?: string;
+};
 
-const UserAvatar = observer(({ size }: { size?: string }) => {
-  const storage = useContext(StorageContext);
-
-  useEffect(() => {
-    if (typeof process.env.TRELLO_TOKEN !== 'undefined') {
-      storage.profile.getData();
-    }
-  }, []);
-
+const UserAvatar = observer(({ size, alt, src }: props) => {
   let avatarSize: { height: string; width: string };
+
   switch (size) {
     case 'mini':
       avatarSize = { height: '41px', width: '41px' };
       break;
     default:
       avatarSize = { height: '140px', width: '140px' };
+      break;
   }
 
-  const avatarUrl = storage.profile.user.avatarUrl;
-
-  return <Avatar alt={storage.profile.user.fullName} src={avatarUrl} sx={avatarSize} />;
+  return <Avatar alt={alt} src={src} sx={avatarSize} />;
 });
 
 export default UserAvatar;

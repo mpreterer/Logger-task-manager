@@ -1,18 +1,32 @@
+import { observer } from 'mobx-react';
+import { useEffect, useContext } from 'react';
 import { Box, Container } from '@mui/material';
 
+import { useAuth } from '../services/AuthProvider';
 import LoginButton from '../components/loginButton';
 import Profile from '../components/profile';
 import UserAvatar from '../components/avatar';
-import { useAuth } from '../services/AuthProvider';
+import useStore from '../hooks/useStore';
 
-function Account() {
+const Account = observer(() => {
   const isLoginIn = useAuth();
+  const { user } = useStore();
+
+  useEffect(() => {
+    if (isLoginIn) {
+      user.getUser();
+    }
+  }, [])
 
   if (isLoginIn) {
     return (
       <Container>
         <Box sx={{ display: 'flex', gap: '19px', marginTop: '177px' }}>
-          <UserAvatar />
+          {
+            isLoginIn && user.activeUser
+            ? <UserAvatar alt={user.activeUser.fullName} src={user.activeUser.avatarUrl + '/170.png'} /> 
+            : <UserAvatar />
+          }
           <Box width={380}>
             <Profile />
           </Box>
@@ -33,6 +47,6 @@ function Account() {
       <LoginButton />
     </Box>
   );
-}
+});
 
 export default Account;
