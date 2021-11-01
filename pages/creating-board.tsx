@@ -5,7 +5,7 @@ import CreatingBoardCard from '../components/creatingBoardCard';
 function CreatingBoard() {
   return (
     <Container>
-      <Box sx={{ paddingTop: '35px', width: '420px' }}>
+      <Box sx={{ mt: '14%', width: '420px' }}>
         <CreatingBoardCard />
       </Box>
     </Container>

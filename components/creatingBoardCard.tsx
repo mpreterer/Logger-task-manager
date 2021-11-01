@@ -1,5 +1,6 @@
-import { Card, CardContent, TextField } from '@mui/material';
+import { Card, CardContent, TextField, FormControl, RadioGroup } from '@mui/material';
 import { Box } from '@mui/system';
+import BoardColor from './boardColor';
 
 const CreatingBoardCard = () => {
   return (
@@ -23,6 +24,23 @@ const CreatingBoardCard = () => {
             variant="outlined"
           />
         </Box>
+        <FormControl component="fieldset">
+          <RadioGroup
+            aria-label="gender"
+            defaultValue="blue"
+            name="board-color"
+          >
+            <BoardColor value="blue" color="#0079BF" />
+            <BoardColor value="green" color="#519839" />
+            <BoardColor value="purple" color="#88629E" />
+            <BoardColor value="pink" color="#CD5A91" />
+            <BoardColor value="grey" color="#838C91" />
+            <BoardColor value="sky" color="#00AECC" />
+            <BoardColor value="lime" color="#4BBF6B" />
+            <BoardColor value="orange" color="#D29034" />
+            <BoardColor value="red" color="#B04632" />
+          </RadioGroup>
+        </FormControl>
       </CardContent>
     </Card>
   );
