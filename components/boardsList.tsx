@@ -13,7 +13,7 @@ const BoardsList = observer(() => {
   }, []);
 
   const boardCards = storage.boards.boards.map((item) => (
-    <BoardCard name={item.name} description={item.desc} key={item.id} />
+    <BoardCard name={item.name} description={item.desc} id={item.id} key={item.id} />
   ));
 
   return <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '42px' }}>{boardCards}</Box>;
