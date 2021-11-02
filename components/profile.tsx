@@ -6,9 +6,13 @@ import useStore from '../hooks/useStore';
 
 const Profile = observer(() => {
   const { user } = useStore();
-  
+
   useEffect(() => {
-    user.getUser();
+    const { activeUser } = user;
+
+    if (!activeUser) {
+      user.getUser();
+    }
   }, []);
 
   return (

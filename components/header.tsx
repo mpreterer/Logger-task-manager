@@ -10,11 +10,20 @@ import BoardsIcon from '../public/images/boards.svg';
 import LogoIcon from '../public/images/logo.svg';
 import { observer } from 'mobx-react';
 import useStore from '../hooks/useStore';
+import { useEffect } from 'react';
 
 const Header = observer(() => {
   const router = useRouter();
   const isLoginIn = useAuth();
   const { user } = useStore();
+
+  useEffect(() => {
+    const { activeUser } = user;
+
+    if (!activeUser) {
+      user.getUser();
+    }
+  }, []);
 
   return (
     <AppBar position="static" sx={{ height: '49px', backgroundColor: '#026AA7' }}>

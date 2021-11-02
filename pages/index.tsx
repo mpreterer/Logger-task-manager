@@ -14,19 +14,26 @@ const Account = observer(() => {
 
   useEffect(() => {
     if (isLoginIn) {
-      user.getUser();
+      const { activeUser } = user;
+
+      if (!activeUser) {
+        user.getUser();
+      }
     }
-  }, [])
+  }, []);
 
   if (isLoginIn) {
     return (
       <Container>
         <Box sx={{ display: 'flex', gap: '19px', marginTop: '177px' }}>
-          {
-            isLoginIn && user.activeUser
-            ? <UserAvatar alt={user.activeUser.fullName} src={user.activeUser.avatarUrl + '/170.png'} /> 
-            : <UserAvatar />
-          }
+          {isLoginIn && user.activeUser ? (
+            <UserAvatar
+              alt={user.activeUser.fullName}
+              src={user.activeUser.avatarUrl + '/170.png'}
+            />
+          ) : (
+            <UserAvatar />
+          )}
           <Box width={380}>
             <Profile />
           </Box>
