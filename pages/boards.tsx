@@ -23,7 +23,7 @@ const Boards = observer(() => {
           <BoardsList />
         </Box>
       </Container>
-      {boards.currentCountBoard < boards.allCountBoard && (
+      {boards.currentCountBoard < boards.allCountBoard && boards.allCountBoard > 8 && (
         <Container sx={{ padding: '100px 0', display: 'flex', justifyContent: 'center' }}>
           <Button
             variant="contained"

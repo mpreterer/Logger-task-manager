@@ -26,7 +26,9 @@ class BoardsStore {
   }
 
   public resetCurrentCountBoard() {
+    this.allCountBoard = 0;
     this.currentCountBoard = 8;
+    this.boards = [];
   }
 
   public async getActiveCard(cardID: string) {
