@@ -18,6 +18,23 @@ class BoardsStore {
     makeAutoObservable(this);
   }
 
+  public clearActiveCard() {
+    runInAction(() => {
+      this.activeCard = null;
+    })
+  }
+
+  public clearActiveBoard() {
+    runInAction(() => {
+      this.activeBoard = null;
+    })
+  }
+
+  public async updateList(listID: string, data: Partial<IList>) {
+    const res = await instance.put(`lists/${listID}`, data);
+    return res;
+  }
+
   public increaseCurrentCountBoard() {
     this.currentCountBoard += 4;
     if (this.currentCountBoard > this.allCountBoard) {
@@ -37,14 +54,7 @@ class BoardsStore {
       .then((res) => {
         if (res.status === 200) {
           runInAction(() => {
-            this.activeCard = {
-              id: res.data.id,
-              name: res.data.name,
-              desc: res.data.desc,
-              dateLastActivity: res.data.dateLastActivity,
-              members: res.data.members,
-              comments: res.data.actions,
-            };
+            this.activeCard = res.data;
           });
 
           console.log('Get ActiveCard');
@@ -66,7 +76,7 @@ class BoardsStore {
                 if (list.id === listID) {
                   const cards: ICard[] = res.data;
 
-                  list.cards = cards.map((card) => {
+                  list.actions = cards.map((card) => {
                     // Получаем дату создания карточки из её ID
                     const date = new Date(1000 * parseInt(card.id.substring(0, 8), 16));
                     card.dateCreated = `${date}`;
