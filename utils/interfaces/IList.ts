@@ -3,7 +3,7 @@ import ICard from "./ICard";
 interface IList {
   id: string,
   name: string,
-  cards?: ICard[]
+  actions?: ICard[]
 }
 
 export default IList;
