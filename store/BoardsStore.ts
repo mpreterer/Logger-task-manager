@@ -8,6 +8,8 @@ import ICard from '../utils/interfaces/ICard';
 import IList from '../utils/interfaces/IList';
 
 class BoardsStore {
+  public currentCountBoard = 8;
+  public allCountBoard: number = 0;
   public boards: IBoard[] = [];
   public activeBoard: IActiveBoard | null = null;
   public activeCard: IActiveCard | null = null;
@@ -16,11 +18,22 @@ class BoardsStore {
     makeAutoObservable(this);
   }
 
+  public increaseCurrentCountBoard() {
+    this.currentCountBoard += 4;
+    if (this.currentCountBoard > this.allCountBoard) {
+      this.currentCountBoard = this.allCountBoard;
+    }
+  }
+
+  public resetCurrentCountBoard() {
+    this.currentCountBoard = 8;
+  }
+
   public async getActiveCard(cardID: string) {
-    await instance.get(`cards/${cardID}?actions=commentCard&members=true`)
-      .then(res => {
-        
-        if(res.status === 200) {
+    await instance
+      .get(`cards/${cardID}?actions=commentCard&members=true`)
+      .then((res) => {
+        if (res.status === 200) {
           runInAction(() => {
             this.activeCard = {
               id: res.data.id,
@@ -30,32 +43,30 @@ class BoardsStore {
               members: res.data.members,
               comments: res.data.actions,
             };
-          })
-          
-          console.log('Get ActiveCard')
+          });
+
+          console.log('Get ActiveCard');
         }
       })
-      .catch(e => {
-        console.log(e)
-      })
+      .catch((e) => {
+        console.log(e);
+      });
   }
 
   public async getCardsFromList(listID: string) {
-    await instance.get(`lists/${listID}/cards?members=true`)
-      .then(res => {
-
-        if(res.status === 200) {
+    await instance
+      .get(`lists/${listID}/cards?members=true`)
+      .then((res) => {
+        if (res.status === 200) {
           runInAction(() => {
-
-            if(this.activeBoard) {
-              this.activeBoard.lists?.map(list => {
-
-                if(list.id === listID) {
+            if (this.activeBoard) {
+              this.activeBoard.lists?.map((list) => {
+                if (list.id === listID) {
                   const cards: ICard[] = res.data;
 
-                  list.cards = cards.map(card => {
+                  list.cards = cards.map((card) => {
                     // Получаем дату создания карточки из её ID
-                    const date = new Date(1000*parseInt(card.id.substring(0,8),16));
+                    const date = new Date(1000 * parseInt(card.id.substring(0, 8), 16));
                     card.dateCreated = `${date}`;
 
                     return card;
@@ -67,20 +78,21 @@ class BoardsStore {
                 return list;
               });
 
-              console.log('Get Cards')
+              console.log('Get Cards');
             }
-          })
+          });
         }
-    }).catch(e => {
-      console.log(e)
-    })
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }
 
   public async getActiveBoard(boardID: string) {
-    await instance.get(`boards/${boardID}?lists=all`)
-      .then(res => {
-
-        if(res.status === 200) {
+    await instance
+      .get(`boards/${boardID}?lists=all`)
+      .then((res) => {
+        if (res.status === 200) {
           runInAction(() => {
             const board: IActiveBoard = res.data;
             this.activeBoard = board;
@@ -88,55 +100,62 @@ class BoardsStore {
             // Получаем карточки с мемберами для каждого листа
             board.lists?.map((list: IList) => {
               this.getCardsFromList(list.id);
-            })
-            console.log('Get ActiveBoard')
-          })
+            });
+            console.log('Get ActiveBoard');
+          });
         }
-    }).catch(e => {
-      console.log(e)
-    })
-  } 
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }
 
   public async createBoard(board: Partial<IBoard>) {
-    await instance.post('boards', board)
-      .then(res => {
-
-        if(res.status === 200) {
+    await instance
+      .post('boards', board)
+      .then((res) => {
+        if (res.status === 200) {
           runInAction(() => {
-            this.boards.push(res.data as IBoard)
-          })
+            this.boards.push(res.data as IBoard);
+          });
         }
-    }).catch(e => {
-      console.log(e)
-    })
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }
 
   public async removeBoard(boardID: string) {
-    await instance.delete(`boards/${boardID}`)
-      .then(res => {
-
-        if(res.status === 200) {
+    await instance
+      .delete(`boards/${boardID}`)
+      .then((res) => {
+        if (res.status === 200) {
           runInAction(() => {
-            this.boards = this.boards.filter(board => board.id !== boardID)
-          })
+            this.boards = this.boards.filter((board) => board.id !== boardID);
+          });
         }
-    }).catch(e => {
-      console.log(e)
-    })
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }
 
   public loadBoards() {
-    instance.get('member/me/boards?members=all').then(res => {
-
-      if(res.status === 200) {
-        runInAction(() => {
-          this.boards = res.data;
-          console.log('Get Boards')
-        })
-      }
-    }).catch(e => {
-      console.log(e)
-    })
+    instance
+      .get('member/me/boards?members=all')
+      .then((res) => {
+        if (res.status === 200) {
+          runInAction(() => {
+            this.allCountBoard = res.data.length;
+            res.data.length = this.currentCountBoard;
+            this.boards = res.data;
+            console.log('Get Boards');
+          });
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }
 }
 
