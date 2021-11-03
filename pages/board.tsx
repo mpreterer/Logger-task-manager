@@ -42,7 +42,7 @@ const Board = observer(() => {
         }}
       >
         {boards.activeBoard?.lists?.map(list => {
-          return <ColumnCard cards={list.cards} name={list.name} key={list.id} />;
+          return <ColumnCard id={list.id} cards={list.cards} name={list.name} key={list.id} />;
         })}
     </Box>
   );
