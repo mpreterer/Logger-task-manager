@@ -3,13 +3,16 @@ import Header from '../components/header';
 import { AuthProvider } from '../services/AuthProvider';
 import RootStore, { StoreContext } from '../store/RootStore';
 
-function App({ Component }) {
+import StyledEngineProvider from '@mui/material/StyledEngineProvider';
 
+function App({ Component }) {
   return (
     <AuthProvider>
       <StoreContext.Provider value={RootStore}>
-        <Header />
-        <Component />
+        <StyledEngineProvider injectFirst>
+          <Header />
+          <Component />
+        </StyledEngineProvider>
       </StoreContext.Provider>
     </AuthProvider>
   );
