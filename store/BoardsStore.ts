@@ -18,6 +18,17 @@ class BoardsStore {
     makeAutoObservable(this);
   }
 
+  public async createList(list: Partial<IList>) {
+    await instance.post('list', list)
+      .then(res => {
+        runInAction(() => {
+          this.activeBoard?.lists?.push(res.data);
+          console.log('POST List created successfully!')
+        })
+      })
+      .catch(e => console.log(e));
+  }
+
   public increaseCurrentCountBoard() {
     this.currentCountBoard += 4;
     if (this.currentCountBoard > this.allCountBoard) {
