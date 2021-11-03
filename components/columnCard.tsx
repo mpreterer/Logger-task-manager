@@ -1,10 +1,12 @@
 import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
+import { observer } from 'mobx-react';
 import PreviewCard from '../components/previewCard';
 import ILabel from '../utils/interfaces/ILabel';
 import IList from '../utils/interfaces/IList';
+import ButtonNewCard from './buttonNewCard/buttonNewCard';
 
-const ColumnCard = ({ name, cards }: IList) => {
+const ColumnCard = observer(({ id, name, cards }: IList) => {
   return (
     <Box
       sx={{
@@ -34,15 +36,15 @@ const ColumnCard = ({ name, cards }: IList) => {
           <PreviewCard
             id={card.id}
             text={card.name}
-            date={card.dateCreated}
             label={getLabel(card.labels)}
             members={card.members}
             key={card.id}
           />
         );
       })}
+      <ButtonNewCard idList={id} />
     </Box>
   );
-};
+});
 
 export default ColumnCard;
