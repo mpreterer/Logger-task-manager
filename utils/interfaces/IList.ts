@@ -3,7 +3,8 @@ import ICard from "./ICard";
 interface IList {
   id: string,
   name: string,
-  cards?: ICard[]
+  cards?: ICard[],
+  idBoard: string,
 }
 
 export default IList;
