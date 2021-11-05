@@ -7,7 +7,7 @@ import CreatingBoardCard from '../components/creatingBoardCard';
 const CreatingBoard = observer(() => {
   return (
     <Container>
-      <Box sx={{ paddingTop: '35px', width: '420px' }}>
+      <Box sx={{ mt: '14%', width: '420px' }}>
         <CreatingBoardCard />
       </Box>
     </Container>
