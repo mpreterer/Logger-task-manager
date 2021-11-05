@@ -24,13 +24,43 @@ class BoardsStore {
         runInAction(() => {
           this.activeBoard?.lists?.map(list => {
             if(list.id === card.idList) {
-              list.cards?.push(res.data);
-              console.log('POST Сard created successfully!')
+              const isActions = list.actions !== undefined;
+
+              if(isActions) {
+                list.actions?.push(res.data);
+              } else {
+                Object.assign(list, {
+                  actions: [res.data]
+                });
+              }
+              console.log('POST Сard created successfully!');
             }
           })
         })
       })
+  }
+
+  public async createList(list: Partial<IList>) {
+    await instance.post('list', list)
+      .then(res => {
+        runInAction(() => {
+          this.activeBoard?.lists?.push(res.data);
+          console.log('POST List created successfully!');
+        })
+      })
       .catch(e => console.log(e));
+  }
+  
+  public clearActiveCard() {
+    runInAction(() => {
+      this.activeCard = null;
+    })
+  }
+
+  public clearActiveBoard() {
+    runInAction(() => {
+      this.activeBoard = null;
+    })
   }
 
   public increaseCurrentCountBoard() {
@@ -52,14 +82,7 @@ class BoardsStore {
       .then((res) => {
         if (res.status === 200) {
           runInAction(() => {
-            this.activeCard = {
-              id: res.data.id,
-              name: res.data.name,
-              desc: res.data.desc,
-              dateLastActivity: res.data.dateLastActivity,
-              members: res.data.members,
-              comments: res.data.actions,
-            };
+            this.activeCard = res.data;
           });
 
           console.log('Get ActiveCard');
@@ -78,10 +101,10 @@ class BoardsStore {
           runInAction(() => {
             if (this.activeBoard) {
               this.activeBoard.lists?.map((list) => {
-
                 // Обновляем карточки у текущего листа
                 if (list.id === listID) {
-                  list.cards = res.data;
+                  list.actions = res.data;
+
                   return list;
                 }
 

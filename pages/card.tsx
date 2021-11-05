@@ -18,7 +18,10 @@ const Card = observer(() => {
     if(id) {
       boards.getActiveCard(`${id}`);
     }
-    
+
+    return function clearActiveCard() {
+      boards.clearActiveCard();
+    }
   }, [router.isReady])
 
   const transformDate = (value: string): string => {
@@ -37,7 +40,7 @@ const Card = observer(() => {
       })}
     </><br/><br/>
     <>Desc: {boards.activeCard?.desc}</><br/><br/>
-    <>Comments: {boards.activeCard?.comments?.map(comment => {
+    <>Comments: {boards.activeCard?.actions?.map(comment => {
       return <div style={{display: 'flex', alignItems: 'center'}} key={comment.id}>
         <UserAvatar size="mini" alt={comment.memberCreator.fullName} src={comment.memberCreator.avatarUrl + '/50.png'} />
         {comment.memberCreator.fullName}<br/>

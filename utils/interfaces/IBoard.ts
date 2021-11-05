@@ -1,4 +1,4 @@
-import { IUser } from "../../store/profile";
+import IUser from './IUser';
 
 interface IBoard {
   id: string,

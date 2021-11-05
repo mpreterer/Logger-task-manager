@@ -1,5 +1,6 @@
 import { Avatar, Card, CardContent, Typography } from '@mui/material';
 import { Box } from '@mui/system';
+import Link from 'next/link';
 
 import IUser from '../utils/interfaces/IUser';
 import Label from './label';
@@ -50,7 +51,7 @@ const PreviewCard = ({ id, text, label, members }: props) => {
             marginBottom: '8px',
           }}
         >
-          <a href={`card?id=${id}`}>{text}</a>
+        <Link href={`card?id=${id}`}>{text}</Link>
         </Typography>
         <Typography sx={{ fontSize: '11px', lineHeight: '16px', color: '#666666' }}>
           {performDate(id)}

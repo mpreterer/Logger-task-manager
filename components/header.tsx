@@ -10,11 +10,20 @@ import BoardsIcon from '../public/images/boards.svg';
 import LogoIcon from '../public/images/logo.svg';
 import { observer } from 'mobx-react';
 import useStore from '../hooks/useStore';
+import { useEffect } from 'react';
 
 const Header = observer(() => {
   const router = useRouter();
   const isLoginIn = useAuth();
-  const { user } = useStore();
+  const { user, boards } = useStore();
+
+  useEffect(() => {
+    const { activeUser } = user;
+
+    if (!activeUser) {
+      user.getUser();
+    }
+  }, []);
 
   return (
     <AppBar position="static" sx={{ height: '49px', backgroundColor: '#026AA7' }}>
@@ -67,6 +76,29 @@ const Header = observer(() => {
               create board
             </Button>
           </Link>
+          {
+            router.pathname === '/board'
+            ? <Button
+                variant="contained"
+                sx={{
+                  width: '142px',
+                  display: 'flex',
+                  justifyContent: 'flex-start',
+                  backgroundColor: '#284968',
+                  textTransform: 'none',
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  fontSize: '20px',
+                  padding: '0 14px',
+                  height: '41px',
+                  letterSpacing: 'normal',
+                }}
+              >
+                {boards.activeBoard?.name}
+              </Button>
+            : null
+          }
         </Box>
         <Box sx={{ display: 'flex' }}>
           <Image src={LogoIcon} alt="" />
