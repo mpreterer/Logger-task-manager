@@ -1,17 +1,28 @@
 import { FormControlLabel, Radio } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 
-const BoardColor = (props:any) => {
+type props = { value: string; color: string };
+
+const BoardColor = ({ value, color }: props) => {
   return (
     <FormControlLabel
-      value={props.value}
-      control={ <Radio checkedIcon={<CheckIcon/>} color="default" />}
+      value={value}
+      control={
+        <Radio
+          checkedIcon={<CheckIcon sx={{ color: 'white' }} />}
+          icon={<CheckIcon sx={{ display: 'none' }} />}
+        />
+      }
       label=""
-      className="test-one"
-      sx={{ width: "40px", height: "40px", backgroundColor: props.color, borderRadius: "5px" }}
-
+      sx={{
+        margin: '7px 16px',
+        width: '40px',
+        height: '40px',
+        backgroundColor: color,
+        borderRadius: '5px',
+      }}
     />
-  )
-}
+  );
+};
 
 export default BoardColor;
