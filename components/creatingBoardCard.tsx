@@ -24,9 +24,10 @@ const CreatingBoardCard = () => {
           fullWidth={true}
           InputLabelProps={{ shrink: true }}
           variant="outlined"
-          sx={{ width: '328px', marginLeft: '16px' }}
+          sx={{ width: '328px', ml: '16px' }}
+          color="info"
         />
-        <Box sx={{ marginTop: '35px', marginLeft: '16px', width: '328px' }}>
+        <Box sx={{ mt: '35px', ml: '16px', width: '328px' }}>
           <TextField
             label="Description"
             placeholder=""
@@ -35,6 +36,7 @@ const CreatingBoardCard = () => {
             fullWidth={true}
             InputLabelProps={{ shrink: true }}
             variant="outlined"
+            color="info"
           />
         </Box>
         <FormControl component="fieldset">
@@ -52,12 +54,7 @@ const CreatingBoardCard = () => {
         <BasicButton
           url="/"
           text="create"
-          sx={{
-            width: '169px',
-            height: '36px',
-            mt: '27px',
-            ml: '16px',
-          }}
+          sx={{ width: '169px', height: '36px', mt: '27px', ml: '16px' }}
         />
       </CardContent>
     </Card>
