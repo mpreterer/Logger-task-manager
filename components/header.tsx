@@ -20,8 +20,10 @@ const Header = observer(() => {
   useEffect(() => {
     const { activeUser } = user;
 
-    if (!activeUser) {
-      user.getUser();
+    if(isLoginIn) {
+      if (!activeUser) {
+        user.getUser();
+      }
     }
   }, []);
 
