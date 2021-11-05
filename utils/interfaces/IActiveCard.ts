@@ -7,7 +7,7 @@ interface IActiveCard {
   desc: string,
   dateLastActivity: string,
   members?: IUser[]
-  comments?: ICardComment[]
+  actions?: ICardComment[]
 }
 
 export default IActiveCard;

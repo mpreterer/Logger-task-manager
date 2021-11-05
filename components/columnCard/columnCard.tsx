@@ -1,10 +1,11 @@
-import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
-import PreviewCard from '../components/previewCard';
-import ILabel from '../utils/interfaces/ILabel';
-import IList from '../utils/interfaces/IList';
 
-const ColumnCard = ({ name, cards }: IList) => {
+import PreviewCard from '../previewCard';
+import ILabel from '../../utils/interfaces/ILabel';
+import IList from '../../utils/interfaces/IList';
+import ColumnTextArea from './columnTextArea/columnTextArea';
+
+const ColumnCard = ({ id, name, actions }: IList) => {
   return (
     <Box
       sx={{
@@ -19,8 +20,8 @@ const ColumnCard = ({ name, cards }: IList) => {
         flexShrink: 0,
       }}
     >
-      <Typography sx={{ fontSize: '16px', lineHeight: '24px' }}>{name}</Typography>
-      {cards?.map((card) => {
+      <ColumnTextArea listID={id} title={name} />
+      {actions?.map((card) => {
         
         const getLabel = (labels: ILabel[]) => {
           if (labels.length) {
