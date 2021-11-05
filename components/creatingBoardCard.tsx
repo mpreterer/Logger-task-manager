@@ -45,7 +45,7 @@ const CreatingBoardCard = () => {
             sx={{ width: '362px', display: 'flex', mt: '30px' }}
           >
             {colors.map((item) => (
-              <BoardColor value={item.value} color={item.color} />
+              <BoardColor key={item.value} value={item.value} color={item.color} />
             ))}
           </RadioGroup>
         </FormControl>
