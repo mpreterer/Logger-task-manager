@@ -50,6 +50,11 @@ class BoardsStore {
       })
       .catch(e => console.log(e));
   }
+
+  public async updateList(listID: string, data: Partial<IList>) {
+    const res = await instance.put(`lists/${listID}`, data);
+    return res;
+  }
   
   public clearActiveCard() {
     runInAction(() => {
