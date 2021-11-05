@@ -18,12 +18,34 @@ class BoardsStore {
     makeAutoObservable(this);
   }
 
+  public async createCard(card: Partial<ICard>) {
+    await instance.post('cards', card)
+      .then(res => {
+        runInAction(() => {
+          this.activeBoard?.lists?.map(list => {
+            if(list.id === card.idList) {
+              const isActions = list.actions !== undefined;
+
+              if(isActions) {
+                list.actions?.push(res.data);
+              } else {
+                Object.assign(list, {
+                  actions: [res.data]
+                });
+              }
+              console.log('POST Сard created successfully!');
+            }
+          })
+        })
+      })
+  }
+
   public async createList(list: Partial<IList>) {
     await instance.post('list', list)
       .then(res => {
         runInAction(() => {
           this.activeBoard?.lists?.push(res.data);
-          console.log('POST List created successfully!')
+          console.log('POST List created successfully!');
         })
       })
       .catch(e => console.log(e));
@@ -39,11 +61,6 @@ class BoardsStore {
     runInAction(() => {
       this.activeBoard = null;
     })
-  }
-
-  public async updateList(listID: string, data: Partial<IList>) {
-    const res = await instance.put(`lists/${listID}`, data);
-    return res;
   }
 
   public increaseCurrentCountBoard() {
@@ -84,6 +101,7 @@ class BoardsStore {
           runInAction(() => {
             if (this.activeBoard) {
               this.activeBoard.lists?.map((list) => {
+                // Обновляем карточки у текущего листа
                 if (list.id === listID) {
                   list.actions = res.data;
 
