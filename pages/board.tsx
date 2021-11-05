@@ -2,6 +2,7 @@ import { Box } from '@mui/material';
 import { observer } from 'mobx-react';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import ButtonNewColumn from '../components/buttonNewColumn/buttonNewColumn';
 
 import ColumnCard from '../components/columnCard/columnCard';
 import useStore from '../hooks/useStore';
@@ -46,8 +47,9 @@ const Board = observer(() => {
         }}
       >
         {boards.activeBoard?.lists?.map(list => {
-          return <ColumnCard id={list.id} actions={list.actions} name={list.name} key={list.id} />;
+          return <ColumnCard idBoard={list.idBoard} id={list.id} actions={list.actions} name={list.name} key={list.id} />;
         })}
+        {boards.activeBoard ? <ButtonNewColumn idBoard={boards.activeBoard.id} /> : null}
     </Box>
   );
 }

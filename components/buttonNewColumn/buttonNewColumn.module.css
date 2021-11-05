@@ -1,0 +1,77 @@
+.buttonNewColumn {
+  max-width: 298px;
+  width: 100%;
+}
+
+.buttonNewColumn__button {
+  min-height: 43px;
+  width: max-content;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  background-color: #4E97C2;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  text-transform: none;
+  padding: 0 70px;
+}
+
+.buttonNewColumn__plus {
+  position: absolute;
+  top: 0;
+  left: 24px;
+  font-size: 38px;
+  line-height: 45px;
+}
+
+.buttonNewColumn__form {
+  display: none;
+  width: 298px;
+  padding: 5px;
+  background: #FFFFFF;
+  border-radius: 5px;
+}
+
+.buttonNewColumn__formController {
+  position: relative;
+}
+
+.buttonNewColumn__textArea {
+  width: 100%;
+  max-height: 100px;
+  min-height: 36px;
+  resize: none;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 5px;
+  background: #FFFFFF;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  padding: 5px 13px;
+}
+
+.buttonNewColumn__textArea:focus {
+  outline: 1px solid #0028F9;
+}
+
+.buttonNewColumn__submit {
+  background-color: #026AA7;
+  font-size: 16px;
+  line-height: 24px;
+  text-transform: none;
+}
+
+.buttonNewColumn__cancel {
+  position: absolute;
+  transform: rotate(45deg);
+  top: -5px;
+  justify-content: center;
+  cursor: pointer;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-size: 38px;
+  line-height: 45px;
+  margin-left: 4px;
+}

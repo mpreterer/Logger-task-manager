@@ -18,6 +18,17 @@ class BoardsStore {
     makeAutoObservable(this);
   }
 
+  public async createList(list: Partial<IList>) {
+    await instance.post('list', list)
+      .then(res => {
+        runInAction(() => {
+          this.activeBoard?.lists?.push(res.data);
+          console.log('POST List created successfully!')
+        })
+      })
+      .catch(e => console.log(e));
+  }
+  
   public clearActiveCard() {
     runInAction(() => {
       this.activeCard = null;
@@ -74,15 +85,7 @@ class BoardsStore {
             if (this.activeBoard) {
               this.activeBoard.lists?.map((list) => {
                 if (list.id === listID) {
-                  const cards: ICard[] = res.data;
-
-                  list.actions = cards.map((card) => {
-                    // Получаем дату создания карточки из её ID
-                    const date = new Date(1000 * parseInt(card.id.substring(0, 8), 16));
-                    card.dateCreated = `${date}`;
-
-                    return card;
-                  });
+                  list.actions = res.data;
 
                   return list;
                 }
