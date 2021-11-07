@@ -100,7 +100,7 @@ const Header = observer(() => {
         </Box>
         <Box sx={{ display: 'flex' }}>
           <Image src={LogoIcon} alt="" />
-          <Typography variant="h1" color="text.secondary" fontStyle="italic">
+          <Typography variant="h1" color="info.main" fontStyle="italic">
             Crello
           </Typography>
         </Box>
