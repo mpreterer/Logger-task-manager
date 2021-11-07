@@ -27,6 +27,16 @@ const Header = observer(() => {
     }
   }, []);
 
+  const getBoardName = () => {
+    if (router.pathname === '/board') {
+      return boards.activeBoard?.name;
+    }
+
+    if (router.pathname === '/card') {
+      return boards.activeCard?.board?.name;
+    }
+  };
+
   return (
     <AppBar position="static" sx={{ height: '49px', backgroundColor: 'secondary.main' }}>
       <Toolbar variant="dense" sx={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr' }}>
@@ -94,7 +104,7 @@ const Header = observer(() => {
                 letterSpacing: 'normal',
               }}
             >
-              {boards.activeBoard?.name}
+              {getBoardName()}
             </Button>
           ) : null}
         </Box>

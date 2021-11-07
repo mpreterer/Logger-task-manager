@@ -19,53 +19,53 @@ class BoardsStore {
   }
 
   public async createCard(card: Partial<ICard>) {
-    await instance.post('cards', card)
-      .then(res => {
-        runInAction(() => {
-          this.activeBoard?.lists?.map(list => {
-            if(list.id === card.idList) {
-              const isActions = list.actions !== undefined;
+    await instance.post('cards', card).then((res) => {
+      runInAction(() => {
+        this.activeBoard?.lists?.map((list) => {
+          if (list.id === card.idList) {
+            const isActions = list.actions !== undefined;
 
-              if(isActions) {
-                list.actions?.push(res.data);
-              } else {
-                Object.assign(list, {
-                  actions: [res.data]
-                });
-              }
-              console.log('POST Сard created successfully!');
+            if (isActions) {
+              list.actions?.push(res.data);
+            } else {
+              Object.assign(list, {
+                actions: [res.data],
+              });
             }
-          })
-        })
-      })
+            console.log('POST Сard created successfully!');
+          }
+        });
+      });
+    });
   }
 
   public async createList(list: Partial<IList>) {
-    await instance.post('list', list)
-      .then(res => {
+    await instance
+      .post('list', list)
+      .then((res) => {
         runInAction(() => {
           this.activeBoard?.lists?.push(res.data);
           console.log('POST List created successfully!');
-        })
+        });
       })
-      .catch(e => console.log(e));
+      .catch((e) => console.log(e));
   }
 
   public async updateList(listID: string, data: Partial<IList>) {
     const res = await instance.put(`lists/${listID}`, data);
     return res;
   }
-  
+
   public clearActiveCard() {
     runInAction(() => {
       this.activeCard = null;
-    })
+    });
   }
 
   public clearActiveBoard() {
     runInAction(() => {
       this.activeBoard = null;
-    })
+    });
   }
 
   public increaseCurrentCountBoard() {
@@ -83,7 +83,7 @@ class BoardsStore {
 
   public async getActiveCard(cardID: string) {
     await instance
-      .get(`cards/${cardID}?actions=commentCard&members=true`)
+      .get(`cards/${cardID}?actions=commentCard&members=true&board=true&board_fields=name`)
       .then((res) => {
         if (res.status === 200) {
           runInAction(() => {
