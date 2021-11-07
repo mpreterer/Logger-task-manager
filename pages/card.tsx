@@ -4,7 +4,8 @@ import { useEffect } from 'react';
 
 import UserAvatar from '../components/avatar';
 import useStore from '../hooks/useStore';
-import { Box, Container, Typography } from '@mui/material';
+import { Box, Button, Container, Typography } from '@mui/material';
+import Label from '../components/label';
 
 const Card = observer(() => {
   const router = useRouter();
@@ -46,23 +47,71 @@ const Card = observer(() => {
       <Box sx={{ mt: '40px', pl: '94px', display: 'flex' }}>
         <Box sx={{ mr: '76px' }}>
           <Typography variant="h4">Members</Typography>
-          <Box sx={{ mt: '15px', minHeight: '50px' }}>
+          <Box sx={{ mt: '15px', minHeight: '50px', display: 'flex' }}>
             {boards.activeCard?.members?.map((member) => {
               return (
-                <UserAvatar
-                  size="medium"
-                  alt={member.fullName}
-                  src={member.avatarUrl + '/50.png'}
-                  key={member.id}
-                />
+                <Box sx={{ mr: '5px' }}>
+                  <UserAvatar
+                    size="medium"
+                    alt={member.fullName}
+                    src={member.avatarUrl + '/50.png'}
+                    key={member.id}
+                  />
+                </Box>
               );
             })}
+            <Button
+              variant="contained"
+              sx={{
+                minWidth: 'initial',
+                width: '45px',
+                height: '45px',
+                background: '#9B9B9B',
+                borderRadius: '50%',
+              }}
+            >
+              <Typography
+                variant="button"
+                fontSize="38px"
+                lineHeight="38px"
+                sx={{ height: '45px' }}
+              >
+                +
+              </Typography>
+            </Button>
           </Box>
         </Box>
         <Box>
           <Typography variant="h4">Labels</Typography>
-          <Box sx={{ mt: '15px', minHeight: '50px' }}>
-            {/* {boards.activeCard?.labels} // Property 'labels' does not exist on type 'IActiveCard'. */}
+          <Box sx={{ mt: '15px', minHeight: '50px', display: 'flex', alignItems: 'center' }}>
+            {boards.activeCard?.labels?.map((label) => {
+              return (
+                <Box key={label.id} sx={{ mr: '5px' }}>
+                  {Label(label.color)}
+                </Box>
+              );
+            })}
+            <Button
+              variant="contained"
+              sx={{
+                minWidth: 'initial',
+                width: '45px',
+                height: '45px',
+                background: '#9B9B9B',
+                borderRadius: '4px',
+              }}
+            >
+              <Typography
+                variant="button"
+                fontSize="38px"
+                lineHeight="38px"
+                sx={{
+                  height: '45px',
+                }}
+              >
+                +
+              </Typography>
+            </Button>
           </Box>
         </Box>
       </Box>

@@ -1,13 +1,9 @@
-import IUser from './IUser';
 import ICardComment from './ICardComment';
 import IBoard from './IBoard';
+import ICard from './ICard';
 
-interface IActiveCard {
-  id: string;
-  name: string;
+interface IActiveCard extends ICard {
   desc: string;
-  dateLastActivity: string;
-  members?: IUser[];
   actions?: ICardComment[];
   board: Partial<IBoard>;
 }
