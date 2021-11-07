@@ -6,12 +6,16 @@ import RootStore, { StoreContext } from '../store/RootStore';
 import StyledEngineProvider from '@mui/material/StyledEngineProvider';
 import { ThemeProvider } from '@material-ui/core';
 import { theme } from '../components/theme';
+import Head from 'next/head';
 
 function App({ Component }) {
   return (
     <AuthProvider>
       <StoreContext.Provider value={RootStore}>
         <StyledEngineProvider injectFirst>
+          <Head>
+            <title>Crello</title>
+          </Head>
           <ThemeProvider theme={theme}>
             <Header />
             <Component />
