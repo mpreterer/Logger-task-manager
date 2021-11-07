@@ -8,10 +8,15 @@ import { Box, Container, Typography } from '@mui/material';
 
 const Card = observer(() => {
   const router = useRouter();
-  const { boards } = useStore();
+  const { user, boards } = useStore();
 
   useEffect(() => {
     const { id } = router.query;
+    const { activeUser } = user;
+
+    if (!activeUser) {
+      user.getUser();
+    }
 
     if (!router.isReady) return;
 
@@ -34,7 +39,7 @@ const Card = observer(() => {
   };
 
   return (
-    <Container sx={{ color: 'text.primary', pt: '65px', pb: '65px' }}>
+    <Container sx={{ color: 'text.secondary', pt: '65px', pb: '65px' }}>
       <Box sx={{ pl: '94px' }}>
         <Typography variant="h2">{boards.activeCard?.name}</Typography>
       </Box>
@@ -42,7 +47,6 @@ const Card = observer(() => {
         <Box sx={{ mr: '76px' }}>
           <Typography variant="h4">Members</Typography>
           <Box sx={{ mt: '15px', minHeight: '50px' }}>
-            {' '}
             {boards.activeCard?.members?.map((member) => {
               return (
                 <UserAvatar
@@ -57,69 +61,76 @@ const Card = observer(() => {
         </Box>
         <Box>
           <Typography variant="h4">Labels</Typography>
-          <Box sx={{ mt: '15px', minHeight: '50px' }}></Box>
+          <Box sx={{ mt: '15px', minHeight: '50px' }}>
+            {/* {boards.activeCard?.labels} // Property 'labels' does not exist on type 'IActiveCard'. */}
+          </Box>
         </Box>
       </Box>
-      <Box sx={{ mt: '78px', pl: '94px' }}>
-        <Typography variant="h4" sx={{ mb: '15px' }}>
-          Description
-        </Typography>
-        <Typography variant="body1" sx={{ mb: '15px', maxWidth: '600px' }}>
-          {boards.activeCard?.desc}
-        </Typography>
-      </Box>
-      <Box sx={{ mt: '90px', pl: '94px' }}>
-        <Typography variant="h4" sx={{ mb: '15px' }}>
-          Comments
-        </Typography>
-        <Box sx={{ minHeight: '100px' }}>
-          {' '}
-          {boards.activeCard?.actions?.map((comment) => {
-            return (
-              <Box sx={{ pt: '6px', pb: '12px', display: 'flex' }} key={comment.id}>
-                <Box sx={{ pt: '25px' }}>
-                  <UserAvatar
-                    size="medium"
-                    alt={comment.memberCreator.fullName}
-                    src={comment.memberCreator.avatarUrl + '/50.png'}
-                  />
-                </Box>
-                <Box sx={{ pl: '10px' }}>
-                  <Typography variant="body2">{comment.memberCreator.fullName}</Typography>
-                  <Box
-                    sx={{
-                      width: '400px',
-                      minHeight: '54px',
-                      padding: '16px',
-                      backgroundColor: '#fff',
-                      borderRadius: '4px',
-                    }}
-                  >
-                    {' '}
-                    <Typography
-                      variant="body1"
+      {boards.activeCard?.desc && (
+        <Box sx={{ mt: '78px', pl: '94px' }}>
+          <Typography variant="h4" sx={{ mb: '15px' }}>
+            Description
+          </Typography>
+          <Typography variant="body1" sx={{ mb: '15px', maxWidth: '600px' }}>
+            {boards.activeCard?.desc}
+          </Typography>
+        </Box>
+      )}
+      {boards.activeCard?.actions?.length !== 0 && (
+        <Box sx={{ mt: '90px', pl: '94px' }}>
+          <Typography variant="h4" sx={{ mb: '15px' }}>
+            Comments
+          </Typography>
+          <Box sx={{ minHeight: '100px' }}>
+            {boards.activeCard?.actions?.map((comment) => {
+              return (
+                <Box sx={{ pt: '6px', pb: '12px', display: 'flex' }} key={comment.id}>
+                  <Box sx={{ pt: '25px' }}>
+                    <UserAvatar
+                      size="medium"
+                      alt={comment.memberCreator.fullName}
+                      src={comment.memberCreator.avatarUrl + '/50.png'}
+                    />
+                  </Box>
+                  <Box sx={{ pl: '10px' }}>
+                    <Typography variant="body1">{comment.memberCreator.fullName}</Typography>
+                    <Box
                       sx={{
-                        fontWeight: 500,
-                        fontSize: '0.9rem',
-                        color: '#001B45',
+                        width: '400px',
+                        minHeight: '54px',
+                        padding: '16px',
+                        backgroundColor: '#fff',
+                        borderRadius: '4px',
                       }}
                     >
-                      {comment.data.text}
-                    </Typography>
+                      <Typography
+                        variant="body1"
+                        sx={{
+                          fontWeight: 500,
+                          fontSize: '0.9rem',
+                          color: '#001B45',
+                        }}
+                      >
+                        {comment.data.text}
+                      </Typography>
+                    </Box>
                   </Box>
                 </Box>
-              </Box>
-            );
-          })}
+              );
+            })}
+          </Box>
         </Box>
-      </Box>
+      )}
       <Box sx={{ mt: '80px', pl: '94px' }}>
         <Typography variant="h4" sx={{ mb: '15px' }}>
           Last activity
         </Typography>
         <Box sx={{ mt: '15px', minHeight: '50px', display: 'flex', alignItems: 'center' }}>
-          {' '}
-          <UserAvatar size="medium" alt={' '} src={'/'} />
+          <UserAvatar
+            size="medium"
+            alt={user?.activeUser?.fullName}
+            src={user?.activeUser?.avatarUrl + '/50.png'}
+          />
           <Typography variant="body1" sx={{ pl: '10px', fontWeight: 500, fontSize: '1.5rem' }}>
             {transformDate(`${boards.activeCard?.dateLastActivity}`)}
           </Typography>
