@@ -1,5 +1,6 @@
 interface ILabel {
-  color: string
+  id: string;
+  color: string;
 }
 
 export default ILabel;

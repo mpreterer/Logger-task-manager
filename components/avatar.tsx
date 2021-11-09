@@ -14,6 +14,9 @@ const UserAvatar = observer(({ size, alt, src }: props) => {
     case 'mini':
       avatarSize = { height: '41px', width: '41px' };
       break;
+    case 'medium':
+      avatarSize = { height: '45px', width: '45px' };
+      break;
     default:
       avatarSize = { height: '140px', width: '140px' };
       break;
