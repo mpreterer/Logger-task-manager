@@ -185,7 +185,8 @@ class BoardsStore {
         if (res.status === 200) {
           runInAction(() => {
             this.allCountBoard = res.data.length;
-            res.data.length = this.currentCountBoard;
+            res.data.length =
+              res.data.length > this.currentCountBoard ? this.currentCountBoard : res.data.length;
             this.boards = res.data;
             console.log('Get Boards');
           });
