@@ -5,6 +5,7 @@ import IActiveBoard from '../utils/interfaces/IActiveBoard';
 import IActiveCard from '../utils/interfaces/IActiveCard';
 import IBoard from '../utils/interfaces/IBoard';
 import ICard from '../utils/interfaces/ICard';
+import ICreateBoard from '../utils/interfaces/ICreateBoard';
 import IList from '../utils/interfaces/IList';
 
 class BoardsStore {
@@ -148,19 +149,18 @@ class BoardsStore {
       });
   }
 
-  public async createBoard(board: Partial<IBoard>) {
-    await instance
-      .post('boards', board)
-      .then((res) => {
-        if (res.status === 200) {
-          runInAction(() => {
-            this.boards.push(res.data as IBoard);
-          });
-        }
-      })
-      .catch((e) => {
-        console.log(e);
+  public async createBoard(board: Partial<ICreateBoard>) {
+    const res = await instance.post('boards', board);
+    const { data, status } = res;
+
+    if (status === 200) {
+      runInAction(() => {
+        this.boards.push(data as IBoard);
+        console.log('POST Board created successfully!');
       });
+    }
+
+    return res;
   }
 
   public async removeBoard(boardID: string) {

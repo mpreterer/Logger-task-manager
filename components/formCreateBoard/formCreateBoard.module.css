@@ -1,0 +1,50 @@
+.formCreateBoard {
+  width: 100%;
+}
+
+.formCreateBoard__form {
+  padding: 22px 45px 20px 5px;
+  width: 420px;
+}
+
+.formCreateBoard__name {
+  width: 328px;
+  margin-left: 16px; 
+}
+
+.formCreateBoard__desc {
+  width: 328px;
+  margin: 35px 0 0 16px;
+}
+
+.formCreateBoard__colors {
+  width: 362px;
+  display: flex;
+  margin-top: 30px;
+}
+
+.formCreateBoard__create-btn {
+  width: 169px;
+  height: 36px;
+  margin: 27px 0 0 16px;
+}
+
+.formCreateBoard__successfull {
+  width: 100%;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+}
+
+.formCreateBoard__successfull-message {
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-size: 45px;
+  line-height: 24px;
+  color: #FFFFFF;
+}
+
+.formCreateBoard__boards-btn {
+  max-width: fit-content;
+  margin-top: 34px;
+  background: #4E97C2;
+}
