@@ -49,14 +49,16 @@ const Board = observer(() => {
     // Передвигаемая карточка
     const [draggableCard] = sourceCards?.filter((card) => card.id === draggableId) || [];
 
+    // Удаляем карточку из исходного листа
+    sourceCards?.splice(source.index, 1);
+
     // Меняет индекс карточки в листе
     if (dragInSingleList) {
       sourceCards?.splice(destination.index, 0, draggableCard);
     }
 
-    // Удаляем карточку из исходного листа и добавляем в окончательный с индексом
+    // Добавляем карточку в окончательный лист с индексом
     if (!dragInSingleList) {
-      sourceCards?.splice(source.index, 1);
       destinationCards?.splice(destination.index, 0, draggableCard);
     }
   }
