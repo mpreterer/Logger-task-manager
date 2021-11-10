@@ -1,5 +1,6 @@
 import { Box } from '@mui/system';
 import { observer } from 'mobx-react';
+import { Droppable, Draggable } from 'react-beautiful-dnd';
 
 import PreviewCard from '../previewCard';
 import ILabel from '../../utils/interfaces/ILabel';
@@ -7,7 +8,11 @@ import IList from '../../utils/interfaces/IList';
 import ColumnTextArea from './columnTextArea/columnTextArea';
 import ButtonNewCard from '../buttonNewCard/buttonNewCard';
 
-const ColumnCard = observer(({ id, name, actions }: IList) => {
+interface props extends IList {
+  index: number;
+}
+
+const ColumnCard = observer(({ id, name, actions, index }: props) => {
   return (
     <Box
       sx={{
@@ -23,26 +28,37 @@ const ColumnCard = observer(({ id, name, actions }: IList) => {
       }}
     >
       <ColumnTextArea listID={id} title={name} />
-      {actions?.map((card) => {
-        
-        const getLabel = (labels: ILabel[]) => {
-          if (labels.length) {
-            return labels[0].color;
-          }
+      <Droppable droppableId={id}>
+        {(provided) => (
+          <div
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+            style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}
+          >
+            {actions?.map((card, index) => {
+              const getLabel = (labels: ILabel[]) => {
+                if (labels.length) {
+                  return labels[0].color;
+                }
 
-          return undefined;
-        };
+                return undefined;
+              };
 
-        return (
-          <PreviewCard
-            id={card.id}
-            text={card.name}
-            label={getLabel(card.labels)}
-            members={card.members}
-            key={card.id}
-          />
-        );
-      })}
+              return (
+                <PreviewCard
+                  index={index}
+                  id={card.id}
+                  text={card.name}
+                  label={getLabel(card.labels)}
+                  members={card.members}
+                  key={card.id}
+                />
+              );
+            })}
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
       <ButtonNewCard idList={id} />
     </Box>
   );
