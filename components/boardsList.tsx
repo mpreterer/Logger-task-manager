@@ -14,11 +14,11 @@ const BoardsList = observer(() => {
 
   const boardCards = boards.boards.map((item: IBoard) => (
     <BoardCard
-      name={item.name}
-      desc={item.desc}
-      id={item.id}
-      members={item.members}
-      key={item.id}
+      name={item?.name}
+      desc={item?.desc}
+      id={item?.id}
+      members={item?.members}
+      key={item?.id}
     />
   ));
 
