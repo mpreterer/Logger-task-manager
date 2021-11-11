@@ -62,7 +62,9 @@ const PreviewCard = observer(({ id, text, label, members, index }: props) => {
                 marginBottom: '8px',
               }}
             >
-              <Link href={`card?id=${id}`}>{text}</Link>
+              <Link href={`card?id=${id}`}>
+                <a style={{ color: 'black', textDecoration: 'none' }}>{text}</a>
+              </Link>
             </Typography>
             <Typography sx={{ fontSize: '11px', lineHeight: '16px', color: '#666666' }}>
               {performDate(id)}
