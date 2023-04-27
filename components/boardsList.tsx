@@ -14,6 +14,7 @@ const BoardsList = observer(() => {
 
   const boardCards = boards.boards.map((item: IBoard) => (
     <BoardCard
+      color={item?.prefs.backgroundColor}
       name={item?.name}
       desc={item?.desc}
       id={item?.id}
