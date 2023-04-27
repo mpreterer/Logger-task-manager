@@ -2,33 +2,54 @@ import { Avatar, Card, CardContent, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import Link from 'next/link';
 import IBoard from '../utils/interfaces/IBoard';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+import useStore from '../hooks/useStore';
 
-const BoardCard = ({ name, desc, id, members }: IBoard) => {
+const BoardCard = ({ name, desc, id, members, color = '#0079BF' }: IBoard) => {
+  const { boards } = useStore();
+
+  const handleRemoveBoard = async () => {
+    const response = confirm(`Remove board ${name} ?`);
+    if (response) {
+      boards.removeBoard(id);
+    }
+  };
+
   return (
-    <Link href={`/board?id=${id}`}>
-      <a style={{ textDecoration: 'none' }}>
-        <Card
-          variant="outlined"
-          sx={{
-            height: '170px',
-            width: '250px',
-            borderRadius: 0,
-            position: 'relative',
-
-            '&:hover&::after': {
-              content: '""',
-              position: 'absolute',
-              backgroundColor: 'rgba(135, 134, 134, 0.4)',
-              zIndex: '9999999999999',
-              top: 0,
-              width: '100%',
-              height: '100%',
-            },
-          }}
-        >
+    <Card
+      variant="outlined"
+      sx={{
+        height: '170px',
+        width: '250px',
+        borderRadius: 0,
+        position: 'relative',
+        backgroundColor: color,
+        color: '#fff',
+        display: 'flex',
+        flexDirection: 'row-reverse',
+      }}
+    >
+      <IconButton
+        aria-label="delete"
+        sx={{
+          width: '24px',
+          height: '24px',
+          margin: '5px 5px 0 0',
+        }}
+        onClick={handleRemoveBoard}
+      >
+        <DeleteIcon sx={{ width: '20px', height: '20px' }} />
+      </IconButton>
+      <Link href={`/board?id=${id}`}>
+        <a style={{ textDecoration: 'none' }}>
           <CardContent
             sx={{
               height: '100%',
+              '&:hover': {
+                opacity: 0.7,
+              },
+              color: '#fff',
             }}
           >
             <Box>
@@ -41,7 +62,7 @@ const BoardCard = ({ name, desc, id, members }: IBoard) => {
                   textOverflow: 'ellipsis',
                 }}
               >
-                {name}
+                {name.length > 11 ? `${name.slice(0, 11)}...` : name}
               </Typography>
               <Typography
                 sx={{
@@ -49,6 +70,8 @@ const BoardCard = ({ name, desc, id, members }: IBoard) => {
                   lineHeight: '14px',
                   height: '70px',
                   overflow: 'hidden',
+                  width: '180px',
+                  wordBreak: 'break-all',
                 }}
               >
                 {desc}
@@ -62,7 +85,7 @@ const BoardCard = ({ name, desc, id, members }: IBoard) => {
                 marginTop: '10px',
               }}
             >
-              <Typography sx={{ fontSize: '18px', lineHeight: '21px' }}>Members:</Typography>
+              <Typography sx={{ fontSize: '18px', lineHeight: '21px' }}>Author:</Typography>
               {members?.map((member) => {
                 return (
                   <Avatar
@@ -74,9 +97,9 @@ const BoardCard = ({ name, desc, id, members }: IBoard) => {
               })}
             </Box>
           </CardContent>
-        </Card>
-      </a>
-    </Link>
+        </a>
+      </Link>
+    </Card>
   );
 };
 
