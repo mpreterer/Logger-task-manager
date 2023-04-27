@@ -14,27 +14,25 @@ interface props extends IList {
 
 const ColumnCard = observer(({ id, name, actions, index }: props) => {
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '16px',
-        width: '298px',
-        padding: '16px',
-        backgroundColor: '#F9F9F9',
-        border: '1px solid #E5E5E5',
-        borderRadius: '4px',
-        flexShrink: 0,
-      }}
-    >
-      <ColumnTextArea listID={id} title={name} />
-      <Droppable droppableId={id}>
-        {(provided) => (
+    <Droppable droppableId={id}>
+      {(provided) => (
+        <>
           <div
             ref={provided.innerRef}
             {...provided.droppableProps}
-            style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '16px',
+              width: '298px',
+              padding: '16px',
+              backgroundColor: `rgba(255, 255, 255, 0.6)`,
+              border: '1px solid #E5E5E5',
+              borderRadius: '4px',
+              flexShrink: 0,
+            }}
           >
+            <ColumnTextArea listID={id} title={name} />
             {actions?.map((card, index) => {
               const getLabel = (labels: ILabel[]) => {
                 if (labels.length) {
@@ -56,11 +54,11 @@ const ColumnCard = observer(({ id, name, actions, index }: props) => {
               );
             })}
             {provided.placeholder}
+            <ButtonNewCard idList={id} />
           </div>
-        )}
-      </Droppable>
-      <ButtonNewCard idList={id} />
-    </Box>
+        </>
+      )}
+    </Droppable>
   );
 });
 

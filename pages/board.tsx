@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { observer } from 'mobx-react';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 
 import ButtonNewColumn from '../components/buttonNewColumn/buttonNewColumn';
@@ -13,6 +13,16 @@ const Board = observer(() => {
   const isLoginIn = useAuth();
   const router = useRouter();
   const { boards } = useStore();
+
+  if (boards.activeBoard?.prefs.backgroundColor) {
+    document.body.style.backgroundColor = boards.activeBoard?.prefs.backgroundColor;
+  }
+
+  useEffect(() => {
+    return () => {
+      document.body.style.backgroundColor = '';
+    };
+  }, []);
 
   useEffect(() => {
     const { id } = router.query;
@@ -28,6 +38,17 @@ const Board = observer(() => {
     };
   }, [router.isReady]);
 
+  const [count, setCount] = useState(0);
+
+  // временное решение из-за бага в BoardStore createCard
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCount(count + 1);
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, [count]);
+
   function onDragEnd(result: DropResult) {
     const { destination, source, draggableId } = result;
     const dragInSingleList = destination?.droppableId === source.droppableId;
@@ -42,7 +63,7 @@ const Board = observer(() => {
     // Окончательный лист
     const [destinationList] =
       boards.activeBoard?.lists?.filter((list) => list.id === destination.droppableId) || [];
-    
+
     const sourceCards = sourceList.actions;
     const destinationCards = destinationList.actions;
 
@@ -61,6 +82,8 @@ const Board = observer(() => {
     if (!dragInSingleList) {
       destinationCards?.splice(destination.index, 0, draggableCard);
     }
+
+    boards.updateCardPosition(draggableId, destination.droppableId, destination.index);
   }
 
   if (isLoginIn) {
@@ -83,18 +106,24 @@ const Board = observer(() => {
             },
           }}
         >
-          {boards.activeBoard?.lists?.map((list, index) => {
-            return (
-              <ColumnCard
-                index={index}
-                idBoard={list.idBoard}
-                id={list.id}
-                actions={list.actions}
-                name={list.name}
-                key={list.id}
-              />
-            );
-          })}
+          {boards.activeBoard?.lists
+            ?.slice()
+            .reverse()
+            .map((list, index) => {
+              if (!list?.closed) {
+                return (
+                  <ColumnCard
+                    index={index}
+                    idBoard={list.idBoard}
+                    id={list.id}
+                    actions={list.actions}
+                    name={list.name}
+                    key={list.id}
+                    data-rerender={count}
+                  />
+                );
+              }
+            })}
           {boards.activeBoard ? <ButtonNewColumn idBoard={boards.activeBoard.id} /> : null}
         </Box>
       </DragDropContext>
