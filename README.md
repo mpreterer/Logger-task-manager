@@ -6,7 +6,7 @@
 
 ### Распаковка
 Клонировать
->```git clone ```
+>```git clone https://github.com/mpreterer/Logger-task-manager.git```
 
 Установить
 >```npm i```
