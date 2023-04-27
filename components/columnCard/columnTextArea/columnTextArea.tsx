@@ -2,6 +2,7 @@ import React from 'react';
 
 import RootStore from '../../../store/RootStore';
 import styles from './columnTextArea.module.css';
+import ButtonRemoveList from '../../buttonRemoveList/buttonRemoveList';
 
 type props = {
   listID: string;
@@ -23,7 +24,7 @@ class ColumnTextArea extends React.Component<props> {
   // При первом рендере настраиваем высоту textArea
   componentDidMount() {
     const node = this.componentRef.current;
-    
+
     this.setScrollHeight(node);
   }
 
@@ -41,7 +42,8 @@ class ColumnTextArea extends React.Component<props> {
     if (isTitleChanged && isValue) {
       const { boards } = RootStore;
 
-      boards.updateList(this.listID, { name: value })
+      boards
+        .updateList(this.listID, { name: value })
         .then((res) => {
           const { name } = res.data;
 
@@ -80,9 +82,30 @@ class ColumnTextArea extends React.Component<props> {
     }
   }
 
+  private async handleRemoveList() {
+    const { boards } = RootStore;
+
+    if (boards.activeBoard?.lists?.length === 1) {
+      const result = confirm(
+        `If you will remove this list, this board will be remove. Are you sure?`,
+      );
+      if (result) {
+        await boards.removeList(this.listID);
+        window.history.back();
+      }
+    }
+
+    const result = confirm(`Remove List "${this.title}" ?`);
+
+    if (result) {
+      await boards.removeList(this.listID);
+      window.location.reload();
+    }
+  }
+
   render() {
     return (
-      <form>
+      <form style={{ display: 'flex' }}>
         <textarea
           defaultValue={this.title}
           rows={1}
@@ -92,6 +115,7 @@ class ColumnTextArea extends React.Component<props> {
           onBlur={(e) => this.checkBlur(e)}
           ref={this.componentRef}
         ></textarea>
+        <ButtonRemoveList onClick={() => this.handleRemoveList()} />
       </form>
     );
   }
