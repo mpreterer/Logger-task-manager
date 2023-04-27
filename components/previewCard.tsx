@@ -51,7 +51,7 @@ const PreviewCard = observer(({ id, text, label, members, index }: props) => {
           sx={{ borderColor: '#666666' }}
         >
           <CardContent sx={{ padding: '8px' }}>
-            {label ? <Label label={label} /> : null}
+            {label ? <Label label={label} notRemoved /> : null}
             <Typography
               sx={{
                 fontSize: '12px',
@@ -63,7 +63,9 @@ const PreviewCard = observer(({ id, text, label, members, index }: props) => {
               }}
             >
               <Link href={`card?id=${id}`}>
-                <a style={{ color: 'black', textDecoration: 'none' }}>{text}</a>
+                <a style={{ color: 'black', textDecoration: 'none', wordBreak: 'break-all' }}>
+                  {text}
+                </a>
               </Link>
             </Typography>
             <Typography sx={{ fontSize: '11px', lineHeight: '16px', color: '#666666' }}>
