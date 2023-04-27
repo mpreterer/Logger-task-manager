@@ -1,18 +1,22 @@
 import { Chip } from '@mui/material';
+import { FC } from 'react';
 
-type props = {
-  label: string;
+type Props = {
+  label: any;
+  onDelete: any;
+  labelId: any;
+  notRemoved?: any;
 };
 
-type color = {
+type Color = {
   [key: string]: string;
   low: string;
   medium: string;
   high: string;
 };
 
-const Label = ({ label }: props) => {
-  const color: color = {
+const Label: FC<Props> = ({ label, onDelete, labelId, notRemoved = false }) => {
+  const color: Color = {
     low: '#BBEBB0',
     medium: '#F0CA81',
     high: '#DE1D3E',
@@ -34,19 +38,37 @@ const Label = ({ label }: props) => {
   const confirmedDifficulty = getDifficulty(label);
   const textColor = confirmedDifficulty === 'high' ? 'white' : 'black';
 
-  if(!confirmedDifficulty) {
-    return null;
-  }
+  const handleDelete = () => {
+    if (onDelete) {
+      onDelete();
+    }
+  };
 
   return (
-    <Chip
-      label={confirmedDifficulty}
-      sx={{
-        backgroundColor: `${color[confirmedDifficulty]}`,
-        color: `${textColor}`,
-        textTransform: 'capitalize',
-      }}
-    ></Chip>
+    <>
+      {notRemoved ? (
+        <Chip
+          label={confirmedDifficulty}
+          sx={{
+            backgroundColor: `${color[confirmedDifficulty]}`,
+            color: `${textColor}`,
+            textTransform: 'capitalize',
+          }}
+          data-id-label={labelId}
+        ></Chip>
+      ) : (
+        <Chip
+          label={confirmedDifficulty}
+          sx={{
+            backgroundColor: `${color[confirmedDifficulty]}`,
+            color: `${textColor}`,
+            textTransform: 'capitalize',
+          }}
+          data-id-label={labelId}
+          onDelete={handleDelete}
+        ></Chip>
+      )}
+    </>
   );
 };
 
