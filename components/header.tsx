@@ -90,7 +90,8 @@ const Header = observer(() => {
             <Button
               variant="contained"
               sx={{
-                width: '142px',
+                maxWidth: '900px',
+                marginRight: '10px',
                 height: '41px',
                 padding: '0 14px',
                 display: 'flex',
@@ -111,7 +112,7 @@ const Header = observer(() => {
         <Box sx={{ display: 'flex' }}>
           <Image src={LogoIcon} alt="" />
           <Typography variant="h1" color="info.main" fontStyle="italic">
-            Crello
+            Logger
           </Typography>
         </Box>
         <Box sx={{ marginLeft: 'auto' }}>
