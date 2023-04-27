@@ -1,20 +1,40 @@
 import { observer } from 'mobx-react';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import UserAvatar from '../components/avatar';
 import useStore from '../hooks/useStore';
 import { Box, Button, Container, Typography } from '@mui/material';
 import Label from '../components/label';
+import { AddPriorityModal } from '../components/addPriorityModal';
+import { TextareaAutosize } from '@mui/material';
 
 const Card = observer(() => {
   const router = useRouter();
   const { user, boards } = useStore();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [haveLabels, setHaveLabels] = useState(true);
+  const [description, setDescription] = useState('');
+  const [labels, setLabels] = useState([]);
+
+  const label = boards.activeCard?.labels[0];
+
+  useEffect(() => {
+    if (label) {
+      setLabels([{ color: label.color, id: label.id }]);
+      setHaveLabels(false);
+    }
+  }, [label]);
+
+  useEffect(() => {
+    return () => {
+      document.body.style.backgroundColor = '';
+    };
+  }, []);
 
   useEffect(() => {
     const { id } = router.query;
     const { activeUser } = user;
-
     if (!activeUser) {
       user.getUser();
     }
@@ -25,10 +45,43 @@ const Card = observer(() => {
       boards.getActiveCard(`${id}`);
     }
 
+    async function fetchLabels() {
+      // const responseLabels = (await boards.haveLabels(id)).data;
+      const responseDesc = (await boards.getDescription(id))['_value'];
+      setDescription(responseDesc);
+    }
+
+    fetchLabels();
+
+    async function fetchColor() {
+      let idBoard = await boards.getIdBoard(id);
+      let color = await boards.getBackgroundColor(idBoard);
+      document.body.style.backgroundColor = hexToRgb(color.backgroundColor);
+      document.documentElement.style.backgroundColor = hexToRgb(color.backgroundColor);
+    }
+
+    fetchColor();
+
     return function clearActiveCard() {
       boards.clearActiveCard();
     };
   }, [router.isReady]);
+
+  const handleClickRemoveCard = async () => {
+    const { id } = router.query;
+    await boards.removeCard(id);
+    alert('Card removed');
+
+    window.history.back();
+  };
+
+  function hexToRgb(hex: any) {
+    const r = parseInt(hex.substring(1, 3), 16);
+    const g = parseInt(hex.substring(3, 5), 16);
+    const b = parseInt(hex.substring(5, 7), 16);
+
+    return `rgb(${r}, ${g}, ${b})`;
+  }
 
   const transformDate = (value: string): string => {
     const date = new Date(value);
@@ -39,92 +92,114 @@ const Card = observer(() => {
     return date.toLocaleDateString('ru-RU', timeOptions);
   };
 
+  const handleModalOpen = () => {
+    setIsModalOpen(true);
+    console.log('open');
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleRemoveLabel = async (labelId: string) => {
+    boards.deleteBoardLabel(labelId);
+    const newLabels = boards.activeCard?.labels?.filter((label) => label.id !== labelId);
+    boards.activeCard = { ...boards.activeCard, labels: newLabels };
+    setHaveLabels(true);
+    setLabels([]);
+  };
+
+  const handlePrioritySave = async () => {
+    const { id } = router.query;
+    const labelInfo = (await boards.haveLabels(id)).data[0];
+    setLabels([{ color: labelInfo.color, id: labelInfo.id }]);
+    setHaveLabels(false);
+  };
+
+  const handleDescriptionChange = (event: any) => {
+    setDescription(event.target.value);
+  };
+
+  const handleSaveDescription = async () => {
+    const { id } = router.query;
+    await boards.addedDescriptionCard(id, description);
+  };
+
   return (
     <Container sx={{ color: 'text.secondary', pt: '65px', pb: '65px' }}>
-      <Box sx={{ pl: '94px' }}>
+      <Box sx={{ pl: '94px', wordBreak: 'break-all' }}>
         <Typography variant="h2">{boards.activeCard?.name}</Typography>
       </Box>
       <Box sx={{ mt: '40px', pl: '94px', display: 'flex' }}>
-        <Box sx={{ mr: '76px' }}>
-          <Typography variant="h4">Members</Typography>
-          <Box sx={{ mt: '15px', minHeight: '50px', display: 'flex' }}>
-            {boards.activeCard?.members?.map((member) => {
+        <AddPriorityModal
+          isOpen={isModalOpen}
+          onClose={handleModalClose}
+          onSave={handlePrioritySave}
+        />
+        <Box>
+          <Typography variant="h4">Labels</Typography>
+          <Box sx={{ mt: '15px', minHeight: '50px', display: 'flex', alignItems: 'center' }}>
+            {labels?.map((label: any) => {
+              const removeLabelHandler = () => handleRemoveLabel(label.id);
               return (
-                <Box sx={{ mr: '5px' }}>
-                  <UserAvatar
-                    size="medium"
-                    alt={member.fullName}
-                    src={member.avatarUrl + '/50.png'}
-                    key={member.id}
+                <Box key={label.id} sx={{ mr: '5px' }}>
+                  <Label
+                    label={label.color}
+                    onDelete={removeLabelHandler}
+                    data-id-label={label.id}
                   />
                 </Box>
               );
             })}
-            <Button
-              variant="contained"
-              sx={{
-                minWidth: 'initial',
-                width: '45px',
-                height: '45px',
-                background: '#9B9B9B',
-                borderRadius: '50%',
-              }}
-            >
-              <Typography
-                variant="button"
-                fontSize="38px"
-                lineHeight="38px"
-                sx={{ height: '45px' }}
-              >
-                +
-              </Typography>
-            </Button>
-          </Box>
-        </Box>
-        <Box>
-          <Typography variant="h4">Labels</Typography>
-          <Box sx={{ mt: '15px', minHeight: '50px', display: 'flex', alignItems: 'center' }}>
-            {boards.activeCard?.labels?.map((label) => {
-              return (
-                <Box key={label.id} sx={{ mr: '5px' }}>
-                  {Label(label.color)}
-                </Box>
-              );
-            })}
-            <Button
-              variant="contained"
-              sx={{
-                minWidth: 'initial',
-                width: '45px',
-                height: '45px',
-                background: '#9B9B9B',
-                borderRadius: '4px',
-              }}
-            >
-              <Typography
-                variant="button"
-                fontSize="38px"
-                lineHeight="38px"
+            {haveLabels ? (
+              <Button
+                variant="contained"
                 sx={{
+                  minWidth: 'initial',
+                  width: '45px',
                   height: '45px',
+                  background: '#9B9B9B',
+                  borderRadius: '4px',
                 }}
+                onClick={handleModalOpen}
               >
-                +
-              </Typography>
-            </Button>
+                <Typography
+                  variant="button"
+                  fontSize="38px"
+                  lineHeight="38px"
+                  sx={{
+                    height: '45px',
+                  }}
+                >
+                  +
+                </Typography>
+              </Button>
+            ) : (
+              ''
+            )}
           </Box>
         </Box>
       </Box>
-      {boards.activeCard?.desc && (
-        <Box sx={{ mt: '78px', pl: '94px' }}>
-          <Typography variant="h4" sx={{ mb: '15px' }}>
-            Description
-          </Typography>
-          <Typography variant="body1" sx={{ mb: '15px', maxWidth: '600px' }}>
-            {boards.activeCard?.desc}
-          </Typography>
-        </Box>
-      )}
+      <Box sx={{ mt: '58px', pl: '94px', display: 'flex', flexDirection: 'column' }}>
+        <Typography variant="h4" sx={{ mb: '15px' }}>
+          Description
+        </Typography>
+        <TextareaAutosize
+          aria-label="minimum height"
+          minRows={3}
+          placeholder="Add a description..."
+          value={description}
+          onChange={handleDescriptionChange}
+          style={{ padding: '10px', width: '500px', maxWidth: '500px', fontSize: '14px' }}
+        />
+        <Button
+          sx={{ marginTop: '10px', width: '100px' }}
+          variant="contained"
+          onClick={handleSaveDescription}
+        >
+          Save
+        </Button>
+      </Box>
       {boards.activeCard?.actions?.length !== 0 && (
         <Box sx={{ mt: '90px', pl: '94px' }}>
           <Typography variant="h4" sx={{ mb: '15px' }}>
@@ -184,6 +259,14 @@ const Card = observer(() => {
             {transformDate(`${boards.activeCard?.dateLastActivity}`)}
           </Typography>
         </Box>
+        <Button
+          variant="contained"
+          onClick={handleClickRemoveCard}
+          color="error"
+          sx={{ mt: '70px' }}
+        >
+          Remove Card
+        </Button>
       </Box>
     </Container>
   );

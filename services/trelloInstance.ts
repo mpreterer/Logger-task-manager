@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const getToken = () => {
+export const getToken = () => {
   if (typeof window !== 'undefined') {
     return localStorage.getItem('token')
   }

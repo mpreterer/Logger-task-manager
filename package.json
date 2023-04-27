@@ -1,7 +1,7 @@
 {
-  "name": "task_tracker_crello",
+  "name": "task_tracker_logger",
   "version": "1.0.0",
-  "description": "**Team \"Team Name\"**",
+  "description": "**Team \"Reactивный артрит\"**",
   "main": "index.js",
   "scripts": {
     "dev": "next dev",
@@ -9,16 +9,8 @@
     "start": "next start",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@gitlab.com/squad_education/task_tracker_crello.git"
-  },
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://gitlab.com/squad_education/task_tracker_crello/issues"
-  },
-  "homepage": "https://gitlab.com/squad_education/task_tracker_crello#readme",
   "dependencies": {
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
@@ -34,6 +26,7 @@
     "next": "^11.1.2",
     "react": "^17.0.2",
     "react-beautiful-dnd": "^13.1.0",
+    "react-dnd": "^16.0.1",
     "react-dom": "^17.0.2",
     "typescript": "^4.4.3"
   },

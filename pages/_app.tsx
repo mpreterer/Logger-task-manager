@@ -14,7 +14,7 @@ function App({ Component }) {
       <StoreContext.Provider value={RootStore}>
         <StyledEngineProvider injectFirst>
           <Head>
-            <title>Crello</title>
+            <title>Logger</title>
           </Head>
           <ThemeProvider theme={theme}>
             <Header />
