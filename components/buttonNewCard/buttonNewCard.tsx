@@ -59,13 +59,13 @@ class ButtonNewCard extends React.Component<props> {
   }
 
   // Создает новый лист на стороне Trello
-  private fetchData(value: string) {
+  private async fetchData(value: string) {
     const isValue = value != null && value != undefined && value != '';
 
     if (isValue) {
       const { boards } = RootStore;
 
-      boards.createCard({
+      await boards.createCard({
         idList: this.idList,
         name: value,
       });
@@ -104,7 +104,7 @@ class ButtonNewCard extends React.Component<props> {
             className={styles.buttonNewCard__textArea}
             rows={1}
             ref={this.textAreaRef}
-            maxLength={512}
+            maxLength={250}
             placeholder="Enter the title of the card"
             onKeyPress={(e) => this.checkTextArea(e)}
             onChange={this.setScrollHeight.bind(this)}
@@ -113,7 +113,9 @@ class ButtonNewCard extends React.Component<props> {
             <Button className={styles.buttonNewCard__submit} variant="contained" type="submit">
               Add new card
             </Button>
-            <span className={styles.buttonNewCard__cancel} onClick={this.hideForm.bind(this)}>+</span>
+            <span className={styles.buttonNewCard__cancel} onClick={this.hideForm.bind(this)}>
+              +
+            </span>
           </div>
         </form>
       </div>
