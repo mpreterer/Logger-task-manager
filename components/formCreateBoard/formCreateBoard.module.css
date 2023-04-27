@@ -9,7 +9,7 @@
 
 .formCreateBoard__name {
   width: 328px;
-  margin-left: 16px; 
+  margin-left: 16px;
 }
 
 .formCreateBoard__desc {
@@ -37,14 +37,14 @@
 }
 
 .formCreateBoard__successfull-message {
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
   font-size: 45px;
-  line-height: 24px;
-  color: #FFFFFF;
+  color: #ffffff;
+  word-break: break-all;
 }
 
 .formCreateBoard__boards-btn {
   max-width: fit-content;
   margin-top: 34px;
-  background: #4E97C2;
+  background: #4e97c2;
 }

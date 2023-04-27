@@ -117,7 +117,7 @@ class FormCreateBoard extends React.Component<props> {
               InputLabelProps={{ shrink: true }}
               variant="outlined"
               color="info"
-              inputProps={{ maxLength: 512 }}
+              inputProps={{ maxLength: 75 }}
               onChange={(e) => this.handleChangeBoardName(e)}
               className={styles.formCreateBoard__name}
             />
@@ -130,7 +130,7 @@ class FormCreateBoard extends React.Component<props> {
               InputLabelProps={{ shrink: true }}
               variant="outlined"
               color="info"
-              inputProps={{ maxLength: 16384 }}
+              inputProps={{ maxLength: 250 }}
               onChange={(e) => this.handleChangeBoardDesc(e)}
               className={styles.formCreateBoard__desc}
             />
