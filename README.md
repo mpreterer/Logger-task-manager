@@ -4,6 +4,8 @@
 Основные функции: авторизация, получение/создание/редактирование/удаление данных.
 В базовой версии представляет собой аналог сервиса [trello](trello.com).
 
+Посмотреть веб-приложение можно по ссылке: https://test-git-main-dshabelyan-gmailcom.vercel.app/
+
 ### Распаковка
 Клонировать
 >```git clone https://github.com/mpreterer/Logger-task-manager.git```
